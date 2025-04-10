@@ -27,6 +27,8 @@ namespace App\Models{
 /**
  * 
  *
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Product> $products
+ * @property-read int|null $products_count
  * @method static \Database\Factories\BrandFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Brand newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Brand newQuery()
@@ -39,6 +41,8 @@ namespace App\Models{
 /**
  * 
  *
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Product> $products
+ * @property-read int|null $products_count
  * @method static \Database\Factories\CategoryFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Category newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Category newQuery()
@@ -75,6 +79,8 @@ namespace App\Models{
 /**
  * 
  *
+ * @property-read \App\Models\Brand|null $brand
+ * @property-read \App\Models\Category|null $category
  * @method static \Database\Factories\ProductFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Product newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Product newQuery()
