@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * 
@@ -46,6 +47,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Order whereUserId($value)
+ * @property-read \App\Models\Address|null $address
  * @mixin \Eloquent
  */
 class Order extends Model {
@@ -80,7 +82,7 @@ class Order extends Model {
             "total_amount",
         ])->withTimestamps();
     }
-    public function addresses(): HasMany {
-        return $this->hasMany(Address::class, 'address_id');
+    public function address(): HasOne {
+        return $this->hasOne(Address::class, 'address_id');
     }
 }
