@@ -27367,12 +27367,12 @@ namespace Livewire\Features\SupportTesting {
             }
     }
 
-namespace Filament\Pages {
+namespace App\Filament\Resources\UserResource\Pages {
     /**
      * 
      *
      */
-    class Dashboard {
+    class CreateUser {
         /**
          * 
          *
@@ -27382,10 +27382,126 @@ namespace Filament\Pages {
          */
         public static function modal($name)
         {
-            return \Filament\Pages\Dashboard::modal($name);
+            return \App\Filament\Resources\UserResource\Pages\CreateUser::modal($name);
         }
 
             }
+    /**
+     * 
+     *
+     */
+    class EditUser {
+        /**
+         * 
+         *
+         * @see \Flux\FluxManager::bootModal()
+         * @param mixed $name
+         * @static 
+         */
+        public static function modal($name)
+        {
+            return \App\Filament\Resources\UserResource\Pages\EditUser::modal($name);
+        }
+
+            }
+    /**
+     * 
+     *
+     */
+    class ListUsers {
+        /**
+         * 
+         *
+         * @see \Flux\FluxManager::bootModal()
+         * @param mixed $name
+         * @static 
+         */
+        public static function modal($name)
+        {
+            return \App\Filament\Resources\UserResource\Pages\ListUsers::modal($name);
+        }
+
+            }
+    }
+
+namespace Filament\Resources\Pages {
+    /**
+     * 
+     *
+     * @property Form $form
+     */
+    class CreateRecord {
+        /**
+         * 
+         *
+         * @see \Flux\FluxManager::bootModal()
+         * @param mixed $name
+         * @static 
+         */
+        public static function modal($name)
+        {
+            return \Filament\Resources\Pages\CreateRecord::modal($name);
+        }
+
+            }
+    /**
+     * 
+     *
+     */
+    class Page {
+        /**
+         * 
+         *
+         * @see \Flux\FluxManager::bootModal()
+         * @param mixed $name
+         * @static 
+         */
+        public static function modal($name)
+        {
+            return \Filament\Resources\Pages\Page::modal($name);
+        }
+
+            }
+    /**
+     * 
+     *
+     * @property Form $form
+     */
+    class EditRecord {
+        /**
+         * 
+         *
+         * @see \Flux\FluxManager::bootModal()
+         * @param mixed $name
+         * @static 
+         */
+        public static function modal($name)
+        {
+            return \Filament\Resources\Pages\EditRecord::modal($name);
+        }
+
+            }
+    /**
+     * 
+     *
+     */
+    class ListRecords {
+        /**
+         * 
+         *
+         * @see \Flux\FluxManager::bootModal()
+         * @param mixed $name
+         * @static 
+         */
+        public static function modal($name)
+        {
+            return \Filament\Resources\Pages\ListRecords::modal($name);
+        }
+
+            }
+    }
+
+namespace Filament\Pages {
     /**
      * 
      *
@@ -27419,6 +27535,24 @@ namespace Filament\Pages {
         public static function modal($name)
         {
             return \Filament\Pages\BasePage::modal($name);
+        }
+
+            }
+    /**
+     * 
+     *
+     */
+    class Dashboard {
+        /**
+         * 
+         *
+         * @see \Flux\FluxManager::bootModal()
+         * @param mixed $name
+         * @static 
+         */
+        public static function modal($name)
+        {
+            return \Filament\Pages\Dashboard::modal($name);
         }
 
             }
