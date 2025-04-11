@@ -15,6 +15,7 @@ namespace App\Models{
 /**
  * 
  *
+ * @property-read \App\Models\Order|null $order
  * @method static \Database\Factories\AddressFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Address newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Address newQuery()
@@ -55,6 +56,8 @@ namespace App\Models{
 /**
  * 
  *
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Address> $addresses
+ * @property-read int|null $addresses_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\OrderItem> $orderItems
  * @property-read int|null $order_items_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Product> $products

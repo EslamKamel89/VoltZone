@@ -40,4 +40,7 @@ class Order extends Model {
             "total_amount",
         ])->withTimestamps();
     }
+    public function addresses(): HasMany {
+        return $this->hasMany(Address::class, 'address_id');
+    }
 }
