@@ -10,7 +10,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $name
@@ -51,6 +51,7 @@ class User extends Authenticatable {
         'name',
         'email',
         'password',
+        'email_verified_at'
     ];
 
     /**

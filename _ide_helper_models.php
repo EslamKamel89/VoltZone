@@ -44,8 +44,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Address whereStreetAddress($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Address whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Address whereZipCode($value)
- * @mixin \Eloquent
  * @property-read string $full_name
+ * @mixin \Eloquent
  */
 	class Address extends \Eloquent {}
 }
