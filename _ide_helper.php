@@ -27367,12 +27367,12 @@ namespace Livewire\Features\SupportTesting {
             }
     }
 
-namespace App\Filament\Resources\UserResource\Pages {
+namespace App\Filament\Resources\CategoryResource\Pages {
     /**
      * 
      *
      */
-    class CreateUser {
+    class CreateCategory {
         /**
          * 
          *
@@ -27382,7 +27382,7 @@ namespace App\Filament\Resources\UserResource\Pages {
          */
         public static function modal($name)
         {
-            return \App\Filament\Resources\UserResource\Pages\CreateUser::modal($name);
+            return \App\Filament\Resources\CategoryResource\Pages\CreateCategory::modal($name);
         }
 
             }
@@ -27390,7 +27390,7 @@ namespace App\Filament\Resources\UserResource\Pages {
      * 
      *
      */
-    class EditUser {
+    class EditCategory {
         /**
          * 
          *
@@ -27400,7 +27400,7 @@ namespace App\Filament\Resources\UserResource\Pages {
          */
         public static function modal($name)
         {
-            return \App\Filament\Resources\UserResource\Pages\EditUser::modal($name);
+            return \App\Filament\Resources\CategoryResource\Pages\EditCategory::modal($name);
         }
 
             }
@@ -27408,7 +27408,7 @@ namespace App\Filament\Resources\UserResource\Pages {
      * 
      *
      */
-    class ListUsers {
+    class ListCategories {
         /**
          * 
          *
@@ -27418,7 +27418,7 @@ namespace App\Filament\Resources\UserResource\Pages {
          */
         public static function modal($name)
         {
-            return \App\Filament\Resources\UserResource\Pages\ListUsers::modal($name);
+            return \App\Filament\Resources\CategoryResource\Pages\ListCategories::modal($name);
         }
 
             }
@@ -27571,6 +27571,63 @@ namespace Filament\Pages {
         public static function modal($name)
         {
             return \Filament\Pages\SimplePage::modal($name);
+        }
+
+            }
+    }
+
+namespace App\Filament\Resources\UserResource\Pages {
+    /**
+     * 
+     *
+     */
+    class CreateUser {
+        /**
+         * 
+         *
+         * @see \Flux\FluxManager::bootModal()
+         * @param mixed $name
+         * @static 
+         */
+        public static function modal($name)
+        {
+            return \App\Filament\Resources\UserResource\Pages\CreateUser::modal($name);
+        }
+
+            }
+    /**
+     * 
+     *
+     */
+    class EditUser {
+        /**
+         * 
+         *
+         * @see \Flux\FluxManager::bootModal()
+         * @param mixed $name
+         * @static 
+         */
+        public static function modal($name)
+        {
+            return \App\Filament\Resources\UserResource\Pages\EditUser::modal($name);
+        }
+
+            }
+    /**
+     * 
+     *
+     */
+    class ListUsers {
+        /**
+         * 
+         *
+         * @see \Flux\FluxManager::bootModal()
+         * @param mixed $name
+         * @static 
+         */
+        public static function modal($name)
+        {
+            return \App\Filament\Resources\UserResource\Pages\ListUsers::modal($name);
         }
 
             }
@@ -33166,6 +33223,11 @@ namespace  {
 }
 
 
+namespace Facades\Livewire\Features\SupportFileUploads {
+    /**
+     * @mixin \Livewire\Features\SupportFileUploads\GenerateSignedUploadUrl     */
+    class GenerateSignedUploadUrl extends \Livewire\Features\SupportFileUploads\GenerateSignedUploadUrl {}
+}
 
 
 
