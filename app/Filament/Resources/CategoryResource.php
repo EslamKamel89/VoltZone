@@ -7,9 +7,13 @@ use App\Filament\Resources\CategoryResource\RelationManagers;
 use App\Models\Category;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Group;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
+use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Actions\ActionGroup;
@@ -28,15 +32,38 @@ class CategoryResource extends Resource {
     public static function form(Form $form): Form {
         return $form
             ->schema([
-                TextInput::make('name')
-                    ->required(),
-                TextInput::make('slug')
-                    ->required(),
-                FileUpload::make('image')
-                    ->directory('categories')
-                    ->image(),
-                Toggle::make('is_active')
-                    ->required(),
+                Section::make('Category')->schema([
+                    Grid::make(4)->schema([
+                        TextInput::make('name')
+                            ->maxLength(255)
+                            ->required()
+                            ->live(onBlur: true)
+                            ->afterStateUpdated(
+                                fn(string $operation,  string $state, Set $set) =>
+                                $operation == 'create' ?  $set('slug',  str($state)->slug()) : null
+                            )->columnSpan(2),
+                        TextInput::make('slug')
+                            ->maxLength(255)
+                            ->unique('categories', 'slug', ignoreRecord: true)
+                            ->disabled()
+                            ->dehydrated()
+                            ->required()
+                            ->columnSpan(2),
+                        FileUpload::make('image')
+                            ->directory('categories')
+                            ->image()->columnSpan(3),
+                        Group::make([
+                            Toggle::make('is_active')->required()->default(true)
+                        ])->extraAttributes([
+                            'class' => 'flex items-center justify-center h-full ',
+                        ])->columnSpan(1),
+                    ])
+                ])->description('Category Main Data')
+                    ->collapsible()
+                // ->extraAttributes([
+                //     'class' => '!flex !items-center !justify-center h-full !bg-red-500',
+                // ])
+                // ->collapsed(),
             ]);
     }
 
