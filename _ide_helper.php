@@ -27367,12 +27367,12 @@ namespace Livewire\Features\SupportTesting {
             }
     }
 
-namespace App\Filament\Resources\CategoryResource\Pages {
+namespace App\Filament\Resources\BrandResource\Pages {
     /**
      * 
      *
      */
-    class CreateCategory {
+    class CreateBrand {
         /**
          * 
          *
@@ -27382,7 +27382,7 @@ namespace App\Filament\Resources\CategoryResource\Pages {
          */
         public static function modal($name)
         {
-            return \App\Filament\Resources\CategoryResource\Pages\CreateCategory::modal($name);
+            return \App\Filament\Resources\BrandResource\Pages\CreateBrand::modal($name);
         }
 
             }
@@ -27390,7 +27390,7 @@ namespace App\Filament\Resources\CategoryResource\Pages {
      * 
      *
      */
-    class EditCategory {
+    class EditBrand {
         /**
          * 
          *
@@ -27400,7 +27400,7 @@ namespace App\Filament\Resources\CategoryResource\Pages {
          */
         public static function modal($name)
         {
-            return \App\Filament\Resources\CategoryResource\Pages\EditCategory::modal($name);
+            return \App\Filament\Resources\BrandResource\Pages\EditBrand::modal($name);
         }
 
             }
@@ -27408,7 +27408,7 @@ namespace App\Filament\Resources\CategoryResource\Pages {
      * 
      *
      */
-    class ListCategories {
+    class ListBrands {
         /**
          * 
          *
@@ -27418,7 +27418,7 @@ namespace App\Filament\Resources\CategoryResource\Pages {
          */
         public static function modal($name)
         {
-            return \App\Filament\Resources\CategoryResource\Pages\ListCategories::modal($name);
+            return \App\Filament\Resources\BrandResource\Pages\ListBrands::modal($name);
         }
 
             }
@@ -27571,6 +27571,63 @@ namespace Filament\Pages {
         public static function modal($name)
         {
             return \Filament\Pages\SimplePage::modal($name);
+        }
+
+            }
+    }
+
+namespace App\Filament\Resources\CategoryResource\Pages {
+    /**
+     * 
+     *
+     */
+    class CreateCategory {
+        /**
+         * 
+         *
+         * @see \Flux\FluxManager::bootModal()
+         * @param mixed $name
+         * @static 
+         */
+        public static function modal($name)
+        {
+            return \App\Filament\Resources\CategoryResource\Pages\CreateCategory::modal($name);
+        }
+
+            }
+    /**
+     * 
+     *
+     */
+    class EditCategory {
+        /**
+         * 
+         *
+         * @see \Flux\FluxManager::bootModal()
+         * @param mixed $name
+         * @static 
+         */
+        public static function modal($name)
+        {
+            return \App\Filament\Resources\CategoryResource\Pages\EditCategory::modal($name);
+        }
+
+            }
+    /**
+     * 
+     *
+     */
+    class ListCategories {
+        /**
+         * 
+         *
+         * @see \Flux\FluxManager::bootModal()
+         * @param mixed $name
+         * @static 
+         */
+        public static function modal($name)
+        {
+            return \App\Filament\Resources\CategoryResource\Pages\ListCategories::modal($name);
         }
 
             }
