@@ -27633,6 +27633,63 @@ namespace App\Filament\Resources\CategoryResource\Pages {
             }
     }
 
+namespace App\Filament\Resources\ProductResource\Pages {
+    /**
+     * 
+     *
+     */
+    class CreateProduct {
+        /**
+         * 
+         *
+         * @see \Flux\FluxManager::bootModal()
+         * @param mixed $name
+         * @static 
+         */
+        public static function modal($name)
+        {
+            return \App\Filament\Resources\ProductResource\Pages\CreateProduct::modal($name);
+        }
+
+            }
+    /**
+     * 
+     *
+     */
+    class EditProduct {
+        /**
+         * 
+         *
+         * @see \Flux\FluxManager::bootModal()
+         * @param mixed $name
+         * @static 
+         */
+        public static function modal($name)
+        {
+            return \App\Filament\Resources\ProductResource\Pages\EditProduct::modal($name);
+        }
+
+            }
+    /**
+     * 
+     *
+     */
+    class ListProducts {
+        /**
+         * 
+         *
+         * @see \Flux\FluxManager::bootModal()
+         * @param mixed $name
+         * @static 
+         */
+        public static function modal($name)
+        {
+            return \App\Filament\Resources\ProductResource\Pages\ListProducts::modal($name);
+        }
+
+            }
+    }
+
 namespace App\Filament\Resources\UserResource\Pages {
     /**
      * 
