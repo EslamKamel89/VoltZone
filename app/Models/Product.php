@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -9,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $category_id
@@ -87,5 +88,11 @@ class Product extends Model {
             "unit_amount",
             "total_amount",
         ])->withTimestamps();
+    }
+    public function images(): Attribute {
+        return Attribute::make(
+            get: fn(string $val) => json_decode($val),
+            set: fn(array $val) => json_encode($val),
+        );
     }
 }
