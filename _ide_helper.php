@@ -27499,6 +27499,25 @@ namespace Filament\Resources\Pages {
         }
 
             }
+    /**
+     * 
+     *
+     * @property Form $form
+     */
+    class ViewRecord {
+        /**
+         * 
+         *
+         * @see \Flux\FluxManager::bootModal()
+         * @param mixed $name
+         * @static 
+         */
+        public static function modal($name)
+        {
+            return \Filament\Resources\Pages\ViewRecord::modal($name);
+        }
+
+            }
     }
 
 namespace Filament\Pages {
@@ -27628,6 +27647,81 @@ namespace App\Filament\Resources\CategoryResource\Pages {
         public static function modal($name)
         {
             return \App\Filament\Resources\CategoryResource\Pages\ListCategories::modal($name);
+        }
+
+            }
+    }
+
+namespace App\Filament\Resources\OrderResource\Pages {
+    /**
+     * 
+     *
+     */
+    class CreateOrder {
+        /**
+         * 
+         *
+         * @see \Flux\FluxManager::bootModal()
+         * @param mixed $name
+         * @static 
+         */
+        public static function modal($name)
+        {
+            return \App\Filament\Resources\OrderResource\Pages\CreateOrder::modal($name);
+        }
+
+            }
+    /**
+     * 
+     *
+     */
+    class EditOrder {
+        /**
+         * 
+         *
+         * @see \Flux\FluxManager::bootModal()
+         * @param mixed $name
+         * @static 
+         */
+        public static function modal($name)
+        {
+            return \App\Filament\Resources\OrderResource\Pages\EditOrder::modal($name);
+        }
+
+            }
+    /**
+     * 
+     *
+     */
+    class ListOrders {
+        /**
+         * 
+         *
+         * @see \Flux\FluxManager::bootModal()
+         * @param mixed $name
+         * @static 
+         */
+        public static function modal($name)
+        {
+            return \App\Filament\Resources\OrderResource\Pages\ListOrders::modal($name);
+        }
+
+            }
+    /**
+     * 
+     *
+     */
+    class ViewOrder {
+        /**
+         * 
+         *
+         * @see \Flux\FluxManager::bootModal()
+         * @param mixed $name
+         * @static 
+         */
+        public static function modal($name)
+        {
+            return \App\Filament\Resources\OrderResource\Pages\ViewOrder::modal($name);
         }
 
             }
