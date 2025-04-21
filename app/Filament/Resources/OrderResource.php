@@ -6,12 +6,20 @@ use App\Filament\Resources\OrderResource\Pages;
 use App\Filament\Resources\OrderResource\RelationManagers;
 use App\Models\Order;
 use Filament\Forms;
+use Filament\Forms\Components\Group;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\TextArea;
+use Filament\Forms\Components\ToggleButtons;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Columns\TextColumn;
 
 class OrderResource extends Resource {
     protected static ?string $model = Order::class;
@@ -21,51 +29,105 @@ class OrderResource extends Resource {
     public static function form(Form $form): Form {
         return $form
             ->schema([
-                Forms\Components\Select::make('user_id')
-                    ->relationship('user', 'name')
-                    ->required(),
-                Forms\Components\TextInput::make('grand_total')
+                Group::make([
+                    Section::make('Order Information')
+                        ->schema([
+
+                            Select::make('user_id')
+                                ->label('Customer')
+                                ->relationship('user', 'name')
+                                ->required()
+                                ->searchable()
+                                ->preload(),
+                            Select::make('payment_method')
+                                ->label("Payment Mehtod")
+                                ->options([
+                                    "stripe" => 'Stripe',
+                                    'cod' => 'Cash On Delivery',
+                                ])->required(),
+                            Select::make('payment_status')
+                                ->label("Payment Status")
+                                ->options([
+                                    "pending" => 'Pending',
+                                    'paid' => 'Paid',
+                                    'failed' => 'Failed',
+                                ])->default('pending')
+                                ->required(),
+                            ToggleButtons::make('status')
+                                ->options([
+                                    'new' => 'New',
+                                    'processing' => 'Processing',
+                                    'shipped' => 'Shipped',
+                                    'delivered' => 'Delivered',
+                                    'canceled' => 'Canceled'
+                                ])
+                                ->colors([
+                                    'new' => "info",
+                                    'processing' => 'warning',
+                                    'shipped' => 'success',
+                                    'delivered' => 'success',
+                                    'canceled' => 'danger'
+                                ])
+                                ->icons([
+                                    'new' => "heroicon-m-sparkles",
+                                    'processing' => "heroicon-m-arrow-path",
+                                    'shipped' => "heroicon-m-truck",
+                                    'delivered' => "heroicon-m-check-badge",
+                                    'canceled' => "heroicon-m-x-circle"
+                                ])
+                                ->inline()->default('new'),
+                            Select::make('currency')
+                                ->options([
+                                    'usd' => 'USD',
+                                    'egp' => 'EGP',
+                                    'eur' => 'EUR',
+                                    'gbp' => 'GBP',
+                                ])->default('egp'),
+                            Select::make('shipping_method')
+                                ->options([
+                                    'fedex' => 'FedExl',
+                                    'ups' => 'UPS',
+                                    'dhl' => 'DHL',
+                                ])->required()->default('dhl'),
+                            Textarea::make('notes')
+                                ->columnSpanFull(),
+                        ])->collapsible()->columns(2),
+                ])->columnSpanFull(),
+                TextInput::make('grand_total')
                     ->numeric(),
-                Forms\Components\TextInput::make('payment_method'),
-                Forms\Components\TextInput::make('payment_status'),
-                Forms\Components\TextInput::make('status')
-                    ->required(),
-                Forms\Components\TextInput::make('currency'),
-                Forms\Components\TextInput::make('shipping_amount')
+
+                TextInput::make('shipping_amount')
                     ->numeric(),
-                Forms\Components\TextInput::make('shipping_method'),
-                Forms\Components\Textarea::make('notes')
-                    ->columnSpanFull(),
             ]);
     }
 
     public static function table(Table $table): Table {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user.name')
+                TextColumn::make('user.name')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('grand_total')
+                TextColumn::make('grand_total')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('payment_method')
+                TextColumn::make('payment_method')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('payment_status')
+                TextColumn::make('payment_status')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('status')
+                TextColumn::make('status')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('currency')
+                TextColumn::make('currency')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('shipping_amount')
+                TextColumn::make('shipping_amount')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('shipping_method')
+                TextColumn::make('shipping_method')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('created_at')
+                TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
+                TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -74,8 +136,12 @@ class OrderResource extends Resource {
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
+                ActionGroup::make([
+
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+                ]),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
