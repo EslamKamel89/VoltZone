@@ -5,8 +5,10 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\OrderResource\Pages;
 use App\Filament\Resources\OrderResource\RelationManagers;
 use App\Models\Order;
+use App\Models\Product;
 use Filament\Forms;
 use Filament\Forms\Components\Group;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -18,6 +20,8 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\TextArea;
 use Filament\Forms\Components\ToggleButtons;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\TextColumn;
 
@@ -92,6 +96,58 @@ class OrderResource extends Resource {
                             Textarea::make('notes')
                                 ->columnSpanFull(),
                         ])->collapsible()->columns(2),
+                ])->columnSpanFull(),
+                Group::make([
+                    Section::make('Add Porducts')
+                        ->schema([
+                            Repeater::make('item')
+                                ->label('Products')
+                                ->itemLabel('+ Product')
+                                ->addActionLabel('Add Product')
+                                ->defaultItems(1)
+                                ->relationship('orderItems')
+                                ->schema([
+                                    Select::make('product_id')
+                                        ->relationship('product', 'name')
+                                        ->searchable()
+                                        ->preload()
+                                        ->required()
+                                        ->distinct()
+                                        ->disableOptionsWhenSelectedInSiblingRepeaterItems()
+                                        ->reactive()
+                                        ->afterStateUpdated(
+                                            function (?String $state, Set $set, Get $get) {
+                                                $price = (float) Product::find($state)->price;
+                                                $set('unit_amount', $price);
+                                                $quantity = (int) $get('quantity');
+                                                $set('total_amount', $price * $quantity);
+                                            }
+                                        ),
+                                    TextInput::make('unit_amount')->numeric()
+                                        ->disabled()
+                                        ->required()
+                                        ->numeric(),
+                                    TextInput::make('quantity')->numeric()
+                                        ->default(1)
+                                        ->required()
+                                        ->minValue(1)
+                                        ->reactive()
+                                        ->afterStateUpdated(
+                                            function (?String $state, Set $set, Get $get) {
+                                                $productId = $get('product_id');
+                                                $price = (float) Product::find($productId)?->price ?? 0;
+                                                $quantity = (int) $state;
+                                                $set('total_amount', $price * $quantity);
+                                            }
+                                        ),
+                                    TextInput::make('total_amount')
+                                        ->disabled()
+                                        ->required()
+                                        ->numeric(),
+                                ])->columns(2)
+                        ])
+                        ->collapsible(),
+
                 ])->columnSpanFull(),
                 TextInput::make('grand_total')
                     ->numeric(),
