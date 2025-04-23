@@ -4,10 +4,13 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\OrderResource\Pages;
 use App\Filament\Resources\OrderResource\RelationManagers;
+use App\Helpers\pr;
 use App\Models\Order;
 use App\Models\Product;
 use Filament\Forms;
 use Filament\Forms\Components\Group;
+use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
@@ -24,6 +27,7 @@ use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\TextColumn;
+use Illuminate\Support\Number;
 
 class OrderResource extends Resource {
     protected static ?string $model = Order::class;
@@ -114,7 +118,7 @@ class OrderResource extends Resource {
                                         ->required()
                                         ->distinct()
                                         ->disableOptionsWhenSelectedInSiblingRepeaterItems()
-                                        ->reactive()
+                                        ->live(onBlur: true)
                                         ->afterStateUpdated(
                                             function (?String $state, Set $set, Get $get) {
                                                 $price = (float) Product::find($state)->price;
@@ -125,13 +129,14 @@ class OrderResource extends Resource {
                                         ),
                                     TextInput::make('unit_amount')->numeric()
                                         ->disabled()
+                                        ->dehydrated()
                                         ->required()
                                         ->numeric(),
                                     TextInput::make('quantity')->numeric()
                                         ->default(1)
                                         ->required()
                                         ->minValue(1)
-                                        ->reactive()
+                                        ->live(onBlur: true)
                                         ->afterStateUpdated(
                                             function (?String $state, Set $set, Get $get) {
                                                 $productId = $get('product_id');
@@ -142,6 +147,7 @@ class OrderResource extends Resource {
                                         ),
                                     TextInput::make('total_amount')
                                         ->disabled()
+                                        ->dehydrated()
                                         ->required()
                                         ->numeric(),
                                 ])->columns(2)
@@ -149,11 +155,35 @@ class OrderResource extends Resource {
                         ->collapsible(),
 
                 ])->columnSpanFull(),
-                TextInput::make('grand_total')
-                    ->numeric(),
+                Placeholder::make('Grand Total')
+                    ->content(function (Get $get, Set $set): string {
+                        $items = collect($get('item'))->values();
+                        $total = 0;
+                        $items->each(function ($item) use (&$total) {
+                            $total = $total + $item['total_amount'];
+                        });
+                        $set("grand_total", $total);
+                        $set('grand_total_shipping', pr::log((float)$total + (float)$get('shipping_amount')));
+                        return Number::currency($total, 'EGP');
+                        // return '€' . number_format($get('cost') * $get('quantity'), 2);
+                    })->columnSpanFull(),
+                Hidden::make('grand_total'),
+                // ->dehydrated()
+                // ->disabled(),
 
                 TextInput::make('shipping_amount')
-                    ->numeric(),
+                    ->default(0)
+                    ->numeric()
+                    ->live(onBlur: true)
+                    ->afterStateUpdated(
+                        function (?float $state, Set $set, Get $get) {
+                            $state = $state ?? 0;
+                            $set("grand_total_shipping", (float) $get("grand_total") + $state);
+                        }
+                    ),
+                TextInput::make('grand_total_shipping')
+                    ->label('Grand Total + Shipping')
+                    ->disabled()
             ]);
     }
 
