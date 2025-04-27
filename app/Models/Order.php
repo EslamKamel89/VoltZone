@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $user_id
@@ -83,6 +83,6 @@ class Order extends Model {
         ])->withTimestamps();
     }
     public function address(): HasOne {
-        return $this->hasOne(Address::class, 'address_id');
+        return $this->hasOne(Address::class, 'order_id');
     }
 }

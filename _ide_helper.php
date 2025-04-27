@@ -27367,12 +27367,12 @@ namespace Livewire\Features\SupportTesting {
             }
     }
 
-namespace App\Filament\Resources\BrandResource\Pages {
+namespace App\Filament\Resources\AddressResource\Pages {
     /**
      * 
      *
      */
-    class CreateBrand {
+    class CreateAddress {
         /**
          * 
          *
@@ -27382,7 +27382,7 @@ namespace App\Filament\Resources\BrandResource\Pages {
          */
         public static function modal($name)
         {
-            return \App\Filament\Resources\BrandResource\Pages\CreateBrand::modal($name);
+            return \App\Filament\Resources\AddressResource\Pages\CreateAddress::modal($name);
         }
 
             }
@@ -27390,7 +27390,7 @@ namespace App\Filament\Resources\BrandResource\Pages {
      * 
      *
      */
-    class EditBrand {
+    class EditAddress {
         /**
          * 
          *
@@ -27400,7 +27400,7 @@ namespace App\Filament\Resources\BrandResource\Pages {
          */
         public static function modal($name)
         {
-            return \App\Filament\Resources\BrandResource\Pages\EditBrand::modal($name);
+            return \App\Filament\Resources\AddressResource\Pages\EditAddress::modal($name);
         }
 
             }
@@ -27408,7 +27408,7 @@ namespace App\Filament\Resources\BrandResource\Pages {
      * 
      *
      */
-    class ListBrands {
+    class ListAddresses {
         /**
          * 
          *
@@ -27418,7 +27418,7 @@ namespace App\Filament\Resources\BrandResource\Pages {
          */
         public static function modal($name)
         {
-            return \App\Filament\Resources\BrandResource\Pages\ListBrands::modal($name);
+            return \App\Filament\Resources\AddressResource\Pages\ListAddresses::modal($name);
         }
 
             }
@@ -27595,6 +27595,63 @@ namespace Filament\Pages {
             }
     }
 
+namespace App\Filament\Resources\BrandResource\Pages {
+    /**
+     * 
+     *
+     */
+    class CreateBrand {
+        /**
+         * 
+         *
+         * @see \Flux\FluxManager::bootModal()
+         * @param mixed $name
+         * @static 
+         */
+        public static function modal($name)
+        {
+            return \App\Filament\Resources\BrandResource\Pages\CreateBrand::modal($name);
+        }
+
+            }
+    /**
+     * 
+     *
+     */
+    class EditBrand {
+        /**
+         * 
+         *
+         * @see \Flux\FluxManager::bootModal()
+         * @param mixed $name
+         * @static 
+         */
+        public static function modal($name)
+        {
+            return \App\Filament\Resources\BrandResource\Pages\EditBrand::modal($name);
+        }
+
+            }
+    /**
+     * 
+     *
+     */
+    class ListBrands {
+        /**
+         * 
+         *
+         * @see \Flux\FluxManager::bootModal()
+         * @param mixed $name
+         * @static 
+         */
+        public static function modal($name)
+        {
+            return \App\Filament\Resources\BrandResource\Pages\ListBrands::modal($name);
+        }
+
+            }
+    }
+
 namespace App\Filament\Resources\CategoryResource\Pages {
     /**
      * 
@@ -27722,6 +27779,48 @@ namespace App\Filament\Resources\OrderResource\Pages {
         public static function modal($name)
         {
             return \App\Filament\Resources\OrderResource\Pages\ViewOrder::modal($name);
+        }
+
+            }
+    }
+
+namespace App\Filament\Resources\OrderResource\RelationManagers {
+    /**
+     * 
+     *
+     */
+    class AddressRelationManager {
+        /**
+         * 
+         *
+         * @see \Flux\FluxManager::bootModal()
+         * @param mixed $name
+         * @static 
+         */
+        public static function modal($name)
+        {
+            return \App\Filament\Resources\OrderResource\RelationManagers\AddressRelationManager::modal($name);
+        }
+
+            }
+    }
+
+namespace Filament\Resources\RelationManagers {
+    /**
+     * 
+     *
+     */
+    class RelationManager {
+        /**
+         * 
+         *
+         * @see \Flux\FluxManager::bootModal()
+         * @param mixed $name
+         * @static 
+         */
+        public static function modal($name)
+        {
+            return \Filament\Resources\RelationManagers\RelationManager::modal($name);
         }
 
             }
