@@ -27826,6 +27826,66 @@ namespace Filament\Resources\RelationManagers {
             }
     }
 
+namespace App\Filament\Resources\OrderResource\Widgets {
+    /**
+     * 
+     *
+     */
+    class OrderStats {
+        /**
+         * 
+         *
+         * @see \Flux\FluxManager::bootModal()
+         * @param mixed $name
+         * @static 
+         */
+        public static function modal($name)
+        {
+            return \App\Filament\Resources\OrderResource\Widgets\OrderStats::modal($name);
+        }
+
+            }
+    }
+
+namespace Filament\Widgets {
+    /**
+     * 
+     *
+     */
+    class StatsOverviewWidget {
+        /**
+         * 
+         *
+         * @see \Flux\FluxManager::bootModal()
+         * @param mixed $name
+         * @static 
+         */
+        public static function modal($name)
+        {
+            return \Filament\Widgets\StatsOverviewWidget::modal($name);
+        }
+
+            }
+    /**
+     * 
+     *
+     */
+    class Widget {
+        /**
+         * 
+         *
+         * @see \Flux\FluxManager::bootModal()
+         * @param mixed $name
+         * @static 
+         */
+        public static function modal($name)
+        {
+            return \Filament\Widgets\Widget::modal($name);
+        }
+
+            }
+    }
+
 namespace App\Filament\Resources\ProductResource\Pages {
     /**
      * 
