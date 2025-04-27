@@ -26,6 +26,7 @@ use Filament\Forms\Components\ToggleButtons;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
 use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Support\Number;
 
@@ -191,22 +192,34 @@ class OrderResource extends Resource {
         return $table
             ->columns([
                 TextColumn::make('user.name')
-                    ->numeric()
-                    ->sortable(),
+                    ->label('Customer')
+                    ->sortable()
+                    ->searchable(),
                 TextColumn::make('grand_total')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->money('EGP'),
                 TextColumn::make('payment_method')
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('payment_status')
-                    ->searchable(),
-                TextColumn::make('status')
-                    ->searchable(),
+
+                    ->searchable()
+                    ->sortable(),
+                SelectColumn::make('status')
+                    ->options([
+                        'new' => 'New',
+                        'processing' => 'Processing',
+                        'shipped' => 'Shipped',
+                        'delivered' => 'Delivered',
+                        'canceled' => 'Canceled'
+                    ])->searchable(),
                 TextColumn::make('currency')
                     ->searchable(),
                 TextColumn::make('shipping_amount')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable(),
                 TextColumn::make('shipping_method')
                     ->searchable(),
                 TextColumn::make('created_at')
@@ -241,7 +254,12 @@ class OrderResource extends Resource {
             //
         ];
     }
-
+    public static function getNavigationBadge(): string|null {
+        return (string)Order::count();
+    }
+    public static function getNavigationBadgeColor(): string|array|null {
+        return Order::count() > 10 ? 'success' : 'danger';
+    }
     public static function getPages(): array {
         return [
             'index' => Pages\ListOrders::route('/'),
