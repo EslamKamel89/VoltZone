@@ -27884,6 +27884,24 @@ namespace Filament\Widgets {
         }
 
             }
+    /**
+     * 
+     *
+     */
+    class TableWidget {
+        /**
+         * 
+         *
+         * @see \Flux\FluxManager::bootModal()
+         * @param mixed $name
+         * @static 
+         */
+        public static function modal($name)
+        {
+            return \Filament\Widgets\TableWidget::modal($name);
+        }
+
+            }
     }
 
 namespace App\Filament\Resources\ProductResource\Pages {
@@ -28016,6 +28034,27 @@ namespace App\Filament\Resources\UserResource\RelationManagers {
         public static function modal($name)
         {
             return \App\Filament\Resources\UserResource\RelationManagers\OrdersRelationManager::modal($name);
+        }
+
+            }
+    }
+
+namespace App\Filament\Widgets {
+    /**
+     * 
+     *
+     */
+    class LatestOrders {
+        /**
+         * 
+         *
+         * @see \Flux\FluxManager::bootModal()
+         * @param mixed $name
+         * @static 
+         */
+        public static function modal($name)
+        {
+            return \App\Filament\Widgets\LatestOrders::modal($name);
         }
 
             }

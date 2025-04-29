@@ -2,6 +2,8 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Resources\OrderResource\Widgets\OrderStats;
+use App\Filament\Widgets\LatestOrders;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -37,6 +39,8 @@ class AdminPanelProvider extends PanelProvider {
             ->widgets([
                 // Widgets\AccountWidget::class,
                 // Widgets\FilamentInfoWidget::class,
+                OrderStats::class,
+                LatestOrders::class,
             ])
             ->middleware([
                 EncryptCookies::class,
