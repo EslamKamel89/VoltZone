@@ -12,12 +12,21 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Database\Eloquent\Model;
 
 class AddressResource extends Resource {
     protected static ?string $model = Address::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-map-pin';
     protected static ?int $navigationSort = 6;
+
+    public static function getGlobalSearchResultTitle(Model $record): string | Htmlable {
+        return "{$record->country} - {$record->state} - {$record->city} - {$record->street_address} ";
+    }
+    public static function getGloballySearchableAttributes(): array {
+        return ['country', 'state', 'city', 'street_address'];
+    }
 
     public static function form(Form $form): Form {
         return $form

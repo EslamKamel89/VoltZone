@@ -29,7 +29,10 @@ class BrandResource extends Resource {
 
     protected static ?string $navigationIcon = 'heroicon-o-sparkles';
     protected static ?int $navigationSort = 3;
-
+    protected static ?string $recordTitleAttribute = 'name';
+    public static function getGloballySearchableAttributes(): array {
+        return ['name', 'slug'];
+    }
     public static function form(Form $form): Form {
         return $form
             ->schema([
