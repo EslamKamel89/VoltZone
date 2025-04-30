@@ -5,7 +5,7 @@
     @include('partials.head')
 </head>
 
-<body class="min-h-screen bg-white dark:bg-zinc-800">
+<body class="flex flex-col min-h-screen bg-white dark:bg-zinc-800">
     <flux:header container class="border-b border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
         <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" />
 
@@ -89,8 +89,11 @@
 </flux:navlist>
 -->
     </flux:sidebar>
+    <div class="flex-1">
 
-    {{ $slot }}
+        {{ $slot }}
+    </div>
+    @include('components.layouts.app.footer')
 
     @fluxScripts
 </body>
