@@ -9,17 +9,26 @@
     <flux:header container class="border-b border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
         <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" />
 
-        <a href="{{ route('dashboard') }}" class="flex items-center space-x-2 ms-2 me-5 rtl:space-x-reverse lg:ms-0" wire:navigate>
+        <a href="{{ route('home') }}" class="flex items-center space-x-2 ms-2 me-5 rtl:space-x-reverse lg:ms-0" wire:navigate>
             <x-app-logo />
         </a>
+        <div class="flex justify-end w-full mx-4">
+            <flux:navbar class="-mb-px max-lg:hidden">
 
-        <flux:navbar class="-mb-px max-lg:hidden">
-            <!--
-            <flux:navbar.item icon="layout-grid" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
-                {{ __('Dashboard') }}
-            </flux:navbar.item>
-            -->
-        </flux:navbar>
+                <flux:navbar.item icon="home" :href="route('home')" :current="request()->routeIs('home')" wire:navigate>
+                    {{'Home' }}
+                </flux:navbar.item>
+                <flux:navbar.item icon="rectangle-group" :href="route('home')" :current="request()->routeIs('homee')" wire:navigate>
+                    {{'Categories' }}
+                </flux:navbar.item>
+                <flux:navbar.item icon="fire" :href="route('home')" :current="request()->routeIs('homee')" wire:navigate>
+                    {{'Products' }}
+                </flux:navbar.item>
+                <flux:navbar.item icon="shopping-cart" :href="route('home')" :current="request()->routeIs('homee')" wire:navigate>
+                    {{'Cart' }}
+                </flux:navbar.item>
+            </flux:navbar>
+        </div>
 
         <flux:spacer />
 
@@ -62,17 +71,25 @@
     <flux:sidebar stashable sticky class="border-r lg:hidden border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
         <flux:sidebar.toggle class="lg:hidden" icon="x-mark" />
 
-        <a href="{{ route('home') }}" class="flex items-center space-x-2 ms-1 rtl:space-x-reverse" wire:navigate>
+        <a wire:navigate href="{{ route('home') }}" class="flex items-center space-x-2 ms-1 rtl:space-x-reverse" wire:navigate>
             <x-app-logo />
         </a>
 
         <flux:navlist variant="outline">
-            <!--
+
             <flux:navlist.group :heading="__('Platform')">
-                <flux:navlist.item icon="layout-grid" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>
-                    {{ __('Dashboard') }}
+                <flux:navlist.item icon="home" :href="route('home')" :current="request()->routeIs('home')" wire:navigate>
+                    {{ 'Home' }}
                 </flux:navlist.item>
-                -->
+                <flux:navlist.item icon="rectangle-group" :href="route('home')" :current="request()->routeIs('homee')" wire:navigate>
+                    {{ 'Categories' }}
+                </flux:navlist.item>
+                <flux:navlist.item icon="fire" :href="route('home')" :current="request()->routeIs('homee')" wire:navigate>
+                    {{ 'Products' }}
+                </flux:navlist.item>
+                <flux:navlist.item icon="shopping-cart" :href="route('home')" :current="request()->routeIs('homee')" wire:navigate>
+                    {{ 'Cart' }}
+                </flux:navlist.item>
             </flux:navlist.group>
         </flux:navlist>
         <!--
