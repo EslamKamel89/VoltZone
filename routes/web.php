@@ -5,8 +5,10 @@ use Livewire\Volt\Volt;
 
 Volt::route('/', 'home.index')
     ->name('home');
-Volt::route('categories', 'categories.index')
+Volt::route('/categories', 'categories.index')
     ->name('categories.index');
+Volt::route('/products', 'products.index')
+    ->name('products.index');
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
