@@ -24,7 +24,7 @@
                 <flux:navbar.item icon="fire" :href="route('products.index')" :current="request()->routeIs('products.index')" wire:navigate>
                     {{'Products' }}
                 </flux:navbar.item>
-                <flux:navbar.item icon="shopping-cart" :href="route('home')" :current="request()->routeIs('homee')" wire:navigate>
+                <flux:navbar.item icon="shopping-cart" :href="route('cart.index')" :current="request()->routeIs('cart.index')" wire:navigate>
                     {{'Cart' }}
                 </flux:navbar.item>
             </flux:navbar>
@@ -87,7 +87,7 @@
                 <flux:navlist.item icon="fire" :href="route('products.index')" :current="request()->routeIs('products.index')" wire:navigate>
                     {{ 'Products' }}
                 </flux:navlist.item>
-                <flux:navlist.item icon="shopping-cart" :href="route('home')" :current="request()->routeIs('homee')" wire:navigate>
+                <flux:navlist.item icon="shopping-cart" :href="route('cart.index')" :current="request()->routeIs('cart.index')" wire:navigate>
                     {{ 'Cart' }}
                 </flux:navlist.item>
             </flux:navlist.group>

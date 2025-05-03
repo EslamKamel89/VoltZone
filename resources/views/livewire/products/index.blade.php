@@ -12,8 +12,8 @@ new class extends Component {
         <h1 class="mb-8 text-3xl font-bold text-gray-800">Our Products</h1>
 
         <div class="flex flex-col gap-8 md:flex-row">
-            <livewire:products.filters />
-            <livewire:products.products />
+            <livewire:products.comps.filters />
+            <livewire:products.comps.products />
         </div>
     </div>
 </div>
