@@ -11,4 +11,5 @@ new
 <div>
     <livewire:home.comps.hero />
     <livewire:home.comps.brands />
+    <livewire:home.comps.categories />
 </div>
