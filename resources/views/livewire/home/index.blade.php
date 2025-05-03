@@ -9,5 +9,5 @@ new
     }; ?>
 
 <div>
-    <div>hello world</div>
+    <livewire:home.comps.hero />
 </div>
