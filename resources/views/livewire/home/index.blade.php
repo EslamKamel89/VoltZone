@@ -3,6 +3,7 @@
 use Livewire\Volt\Component;
 use Livewire\Attributes\{Layout, Title};
 
+
 new
     #[Title('Home')]
     class extends Component {

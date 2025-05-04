@@ -1,9 +1,15 @@
 <?php
 
 use Livewire\Volt\Component;
+use App\Models\Brand;
+use Illuminate\Database\Eloquent\Collection;
 
 new class extends Component {
-    //
+    public function with() {
+        return [
+            'brands' => Brand::active()->get(),
+        ];
+    }
 }; ?>
 
 
@@ -22,62 +28,17 @@ new class extends Component {
         </div>
 
         <!-- Brands Grid -->
-        <div class="grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
-            <!-- Brand Card 1 -->
-            <div class="flex flex-col items-center justify-center p-6 transition-all bg-white border border-gray-100 shadow-sm rounded-xl hover:shadow-md group">
-                <div class="flex items-center justify-center w-16 h-16 mb-3">
-                    <!-- Replace with actual brand logo -->
-                    <i class="text-4xl text-gray-800 transition-colors fab fa-apple group-hover:text-blue-600"></i>
-                </div>
-                <h3 class="font-medium text-gray-900">Apple</h3>
-            </div>
-
-            <!-- Brand Card 2 -->
-            <div class="flex flex-col items-center justify-center p-6 transition-all bg-white border border-gray-100 shadow-sm rounded-xl hover:shadow-md group">
-                <div class="flex items-center justify-center w-16 h-16 mb-3">
-                    <i class="text-4xl text-gray-800 transition-colors fab fa-samsung group-hover:text-blue-600"></i>
-                </div>
-                <h3 class="font-medium text-gray-900">Samsung</h3>
-            </div>
-
-            <!-- Brand Card 3 -->
-            <div class="flex flex-col items-center justify-center p-6 transition-all bg-white border border-gray-100 shadow-sm rounded-xl hover:shadow-md group">
-                <div class="flex items-center justify-center w-16 h-16 mb-3">
-                    <img src="https://logo.clearbit.com/sony.com" alt="Sony" class="object-contain h-12">
-                </div>
-                <h3 class="font-medium text-gray-900">Sony</h3>
-            </div>
-
-            <!-- Brand Card 4 -->
-            <div class="flex flex-col items-center justify-center p-6 transition-all bg-white border border-gray-100 shadow-sm rounded-xl hover:shadow-md group">
-                <div class="flex items-center justify-center w-16 h-16 mb-3">
-                    <img src="https://logo.clearbit.com/lg.com" alt="LG" class="object-contain h-10">
-                </div>
-                <h3 class="font-medium text-gray-900">LG</h3>
-            </div>
-
-            <!-- Brand Card 5 -->
-            <div class="flex flex-col items-center justify-center p-6 transition-all bg-white border border-gray-100 shadow-sm rounded-xl hover:shadow-md group">
-                <div class="flex items-center justify-center w-16 h-16 mb-3">
-                    <img src="https://logo.clearbit.com/xiaomi.com" alt="Xiaomi" class="object-contain h-10">
-                </div>
-                <h3 class="font-medium text-gray-900">Xiaomi</h3>
-            </div>
-
-            <!-- Brand Card 6 -->
-            <div class="flex flex-col items-center justify-center p-6 transition-all bg-white border border-gray-100 shadow-sm rounded-xl hover:shadow-md group">
-                <div class="flex items-center justify-center w-16 h-16 mb-3">
-                    <i class="text-4xl text-gray-800 transition-colors fas fa-headphones group-hover:text-blue-600"></i>
-                </div>
-                <h3 class="font-medium text-gray-900">Bose</h3>
-            </div>
+        <div class="grid w-full grid-cols-2 gap-6 mx-auto md:grid-cols-4">
+            @foreach( $brands as $brand)
+            <livewire:home.comps.brand :brand="$brand" :key="$brand->id" />
+            @endforeach
         </div>
-
-        <!-- View All Button (Optional) -->
-        <div class="mt-12 text-center">
-            <a href="#" class="inline-block px-6 py-3 font-medium text-white transition-colors bg-blue-600 rounded-lg hover:bg-blue-700">
-                View All Brands
-            </a>
+        <div class="flex justify-center w-full">
+            <flux:button variant="primary" icon:trailing="chevron-double-right" class="mt-12 text-center">
+                <a wire:navigate href="/">
+                    View All Brands
+                </a>
+            </flux:button>
         </div>
     </section>
 </div>
