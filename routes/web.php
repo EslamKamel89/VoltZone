@@ -11,6 +11,8 @@ Volt::route('/products', 'products.index')
     ->name('products.index');
 Volt::route('/cart', 'cart.index')
     ->name('cart.index');
+Volt::route('/products/{product}', "product_details.index")->name('products.show');
+Volt::route('/checkout', 'checkout.index')->name('checkout.index');
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
