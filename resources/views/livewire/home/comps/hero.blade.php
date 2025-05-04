@@ -41,12 +41,12 @@ new class extends Component {
 
                 <!-- CTA Buttons -->
                 <div class="flex flex-wrap gap-4">
-                    <a href="#products" class="px-8 py-3 font-medium transition-all transform bg-blue-600 rounded-lg hover:bg-blue-700 hover:scale-105">
+                    <flux:button variant="primary" href="/products" wire:navigate>
                         Shop Now
-                    </a>
-                    <a href="#deals" class="px-8 py-3 font-medium text-gray-600 transition-all bg-transparent border-2 border-gray-600 rounded-lg hover:bg-white hover:border-white hover:text-gray-900">
+                    </flux:button>
+                    <flux:button variant="danger" icon:trailing="fire" href="/products">
                         Hot Deals
-                    </a>
+                    </flux:button>
                 </div>
             </div>
         </div>

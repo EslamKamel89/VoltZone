@@ -14,9 +14,7 @@ new class extends Component {
 
 
 <div class="bg-gray-50">
-    <!-- Popular Brands Section -->
     <section class="px-4 py-16 mx-auto sm:px-6 lg:px-8 max-w-7xl">
-        <!-- Title & Description -->
         <div class="mb-12 text-center">
             <h2 class="mb-4 text-3xl font-bold text-gray-900 md:text-4xl">
                 Browse Popular Brands
@@ -27,7 +25,6 @@ new class extends Component {
             </p>
         </div>
 
-        <!-- Brands Grid -->
         <div class="grid w-full grid-cols-2 gap-6 mx-auto md:grid-cols-4">
             @foreach( $brands as $brand)
             <livewire:home.comps.brand :brand="$brand" :key="$brand->id" />
