@@ -1,10 +1,13 @@
 <?php
 
+use Livewire\Attributes\Title;
 use Livewire\Volt\Component;
 
-new class extends Component {
-    //
-}; ?>
+new
+    #[Title('Order Cancelled')]
+    class extends Component {
+        //
+    }; ?>
 
 <div class="flex items-center justify-center min-h-screen px-4 bg-gray-50 dark:bg-gray-900 sm:px-6 lg:px-8">
     <div class="w-full max-w-md mx-auto">

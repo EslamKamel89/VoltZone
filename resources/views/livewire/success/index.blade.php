@@ -1,10 +1,13 @@
 <?php
 
+use Livewire\Attributes\Title;
 use Livewire\Volt\Component;
 
-new class extends Component {
-    //
-}; ?>
+new
+    #[Title('Order Success')]
+    class extends Component {
+        //
+    }; ?>
 
 <div class="flex items-center justify-center min-h-screen px-4 py-8 bg-gray-100 font-poppins dark:bg-gray-900">
     <div class="w-full max-w-4xl p-6 bg-white shadow-lg rounded-xl dark:bg-gray-800 dark:border dark:border-gray-700">

@@ -1,10 +1,13 @@
 <?php
 
+use Livewire\Attributes\Title;
 use Livewire\Volt\Component;
 
-new class extends Component {
-    //
-}; ?>
+new
+    #[Title('Order')]
+    class extends Component {
+        //
+    }; ?>
 
 <div class="px-4 py-8 mx-auto max-w-7xl sm:px-6 lg:px-8">
     <!-- Page Header -->

@@ -1,10 +1,13 @@
 <?php
 
+use Livewire\Attributes\Title;
 use Livewire\Volt\Component;
 
-new class extends Component {
-    //
-}; ?>
+new
+    #[Title('Checkout')]
+    class extends Component {
+        //
+    }; ?>
 
 <div class="w-full max-w-[85rem] py-10 px-4 sm:px-6 lg:px-8 mx-auto">
     <h1 class="mb-6 text-3xl font-extrabold text-gray-900 dark:text-white">Checkout</h1>
