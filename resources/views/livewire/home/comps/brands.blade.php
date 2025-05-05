@@ -32,7 +32,7 @@ new class extends Component {
         </div>
         <div class="flex justify-center w-full">
             <flux:button variant="primary" icon:trailing="chevron-double-right" class="mt-12 text-center">
-                <a wire:navigate href="/">
+                <a wire:navigate href="{{ route('home') }}">
                     View All Brands
                 </a>
             </flux:button>

@@ -35,9 +35,11 @@ new class extends Component {
 
         <!-- View All Button (Optional) -->
         <div class="mt-12 text-center">
-            <a href="#" class="inline-block px-6 py-3 font-medium text-white transition-colors bg-blue-600 rounded-lg shadow-sm hover:bg-blue-700">
-                View All Categories
-            </a>
+            <flux:button variant="primary" icon:trailing="chevron-double-right" class="mt-12 text-center">
+                <a wire:navigate href="{{ route('categories.index') }}">
+                    View All Categories
+                </a>
+            </flux:button>
         </div>
     </section>
 </div>
