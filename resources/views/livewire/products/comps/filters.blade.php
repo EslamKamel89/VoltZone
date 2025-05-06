@@ -1,9 +1,19 @@
 <?php
 
 use Livewire\Volt\Component;
+use App\Models\Category;
+use App\Models\Brand;
 
 new class extends Component {
-    //
+    public int $selectedCategory;
+    public int $selectedBrand;
+    public function with() {
+        return [
+            'brands' => Brand::all(),
+            'categories' => Category::all(),
+
+        ];
+    }
 }; ?>
 
 <div class="w-full md:w-1/4" x-data="{show:false}">
@@ -15,50 +25,21 @@ new class extends Component {
         <div class="mt-6 md:block" x-bind:class="{'hidden':!show}" x-cloak>
             <!-- Categories Filter -->
             <div class="pb-6 mb-8 border-b border-gray-200">
-                <h3 class="mb-3 font-medium text-gray-700">Categories</h3>
-                <div class="space-y-2">
-                    <label class="flex items-center">
-                        <input type="checkbox" class="text-blue-600 rounded">
-                        <span class="ml-2 text-gray-600">Smartphones</span>
-                    </label>
-                    <label class="flex items-center">
-                        <input type="checkbox" class="text-blue-600 rounded">
-                        <span class="ml-2 text-gray-600">Televisions</span>
-                    </label>
-                    <label class="flex items-center">
-                        <input type="checkbox" class="text-blue-600 rounded">
-                        <span class="ml-2 text-gray-600">Laptops</span>
-                    </label>
-                    <label class="flex items-center">
-                        <input type="checkbox" class="text-blue-600 rounded">
-                        <span class="ml-2 text-gray-600">Headphones</span>
-                    </label>
-                </div>
+                <flux:radio.group wire:model="selectedCategory" label="Categories">
+                    @foreach($categories as $category)
+                    <flux:radio :value="$category->id" :label="$category->name" :key="'category.filter'.$category->id" />
+                    @endforeach
+                </flux:radio.group>
             </div>
 
             <!-- Brands Filter -->
             <div class="pb-6 mb-8 border-b border-gray-200">
-                <h3 class="mb-3 font-medium text-gray-700">Brands</h3>
-                <div class="space-y-2">
-                    <label class="flex items-center">
-                        <input type="checkbox" class="text-blue-600 rounded">
-                        <span class="ml-2 text-gray-600">Samsung</span>
-                    </label>
-                    <label class="flex items-center">
-                        <input type="checkbox" class="text-blue-600 rounded">
-                        <span class="ml-2 text-gray-600">Apple</span>
-                    </label>
-                    <label class="flex items-center">
-                        <input type="checkbox" class="text-blue-600 rounded">
-                        <span class="ml-2 text-gray-600">Sony</span>
-                    </label>
-                    <label class="flex items-center">
-                        <input type="checkbox" class="text-blue-600 rounded">
-                        <span class="ml-2 text-gray-600">Xiaomi</span>
-                    </label>
-                </div>
+                <flux:radio.group wire:model="selectedBrand" label="Brands">
+                    @foreach($brands as $brand)
+                    <flux:radio :value="$brand->id" :label="$brand->name" :key="'brand.filter'.$brand->id" />
+                    @endforeach
+                </flux:radio.group>
             </div>
-
             <!-- Product Status Filter -->
             <div class="pb-6 mb-8 border-b border-gray-200">
                 <h3 class="mb-3 font-medium text-gray-700">Product Status</h3>
