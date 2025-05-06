@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $category_id
@@ -94,5 +94,8 @@ class Product extends Model {
             get: fn(string $val) => json_decode($val),
             set: fn(array $val) => json_encode($val),
         );
+    }
+    public function lastImage(): string {
+        return collect($this->images)->last() ?? '';
     }
 }

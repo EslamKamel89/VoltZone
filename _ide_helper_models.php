@@ -104,8 +104,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Category whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Category whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Category whereUpdatedAt($value)
+ * @method static Builder<static>|Category active()
  * @mixin \Eloquent
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Category active()
  */
 	class Category extends \Eloquent {}
 }
