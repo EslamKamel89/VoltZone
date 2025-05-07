@@ -2,11 +2,20 @@
 
 use Livewire\Attributes\Title;
 use Livewire\Volt\Component;
+use App\Models\Product;
 
 new
     #[Title('Product Details')]
     class extends Component {
-        //
+        public Product $product;
+        public array $images = [];
+        public function mount() {
+            // dd($this->product);
+            $this->images =  collect($this->product->images)
+                ->map(fn($val, $key) => asset('/storage/' . $val))
+                ->reverse()
+                ->toArray();
+        }
     }; ?>
 
 <div class="w-full max-w-[85rem] py-10 px-4 sm:px-6 lg:px-8 mx-auto">
@@ -14,16 +23,13 @@ new
         <div class="max-w-6xl px-4 py-4 mx-auto lg:py-8 md:px-6">
             <div class="grid grid-cols-1 gap-10 md:grid-cols-2">
                 <!-- Left Column - Images -->
-                <div x-data="{ mainImage: 'https://m.media-amazon.com/images/I/71f5Eu5lJSL._SX679_.jpg' }">
+                <div x-data="{ mainImage : $wire.images[0] ?? 'not found' }">
                     <div class="sticky top-0 z-30">
-                        <div class="relative mb-6 aspect-w-4 aspect-h-3">
-                            <img x-bind:src="mainImage" alt="Main product" class="object-cover w-full h-full rounded-lg shadow-md">
+                        <div class="relative mb-6 h-[350px] flex w-full justify-center ">
+                            <img x-bind:src="mainImage" alt="Main product" class="object-cover h-full rounded-lg shadow-md">
                         </div>
                         <div class="flex flex-wrap justify-start hidden gap-3 md:flex">
-                            <template x-for="img in [
-                'https://m.media-amazon.com/images/I/71f5Eu5lJSL._SX679_.jpg',
-                'https://m.media-amazon.com/images/I/61XPhYGQOQL._SX679_.jpg',
-                'https://m.media-amazon.com/images/I/81v5JNjZ4-L._SX679_.jpg']" :key="img">
+                            <template x-for="img in $wire.images" :key="img">
                                 <div class="w-20 cursor-pointer" @click="mainImage = img">
                                     <img :src="img" alt="Thumbnail" class="object-cover w-full h-20 border border-transparent rounded-md hover:border-blue-500">
                                 </div>
@@ -44,14 +50,14 @@ new
                 <div>
                     <div class="space-y-6">
                         <h2 class="text-2xl font-bold text-gray-800 md:text-4xl dark:text-gray-200">
-                            Macbook Pro M130c90
+                            {{ $product->name }}
                         </h2>
                         <p class="text-3xl font-bold text-gray-800 dark:text-gray-200">
-                            $1500.99
+                            ${{$product->price }}
                             <span class="ml-2 text-base font-normal text-gray-500 line-through dark:text-gray-400">$1800.99</span>
                         </p>
                         <p class="text-gray-700 dark:text-gray-400">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium...
+                            {{ $product->description}}
                         </p>
                         <div>
                             <label class="block mb-2 text-lg font-medium text-gray-700 dark:text-gray-300">Quantity</label>
@@ -70,4 +76,15 @@ new
             </div>
         </div>
     </section>
+    @script
+    <script>
+        const init = async () => {
+            // const product = await $wire.getProduct();
+            // $wire.myProduct = product;
+            // console.log('------------------');
+            // console.log($wire.product?.images[0]);
+        }
+        init();
+    </script>
+    @endscript
 </div>
