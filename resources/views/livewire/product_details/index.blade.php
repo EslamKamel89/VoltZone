@@ -16,6 +16,10 @@ new
                 ->reverse()
                 ->toArray();
         }
+        public function productDescription() {
+            $parsedown = new Parsedown();
+            return $parsedown->text($this->product->description);
+        }
     }; ?>
 
 <div class="w-full max-w-[85rem] py-10 px-4 sm:px-6 lg:px-8 mx-auto">
@@ -54,10 +58,10 @@ new
                         </h2>
                         <p class="text-3xl font-bold text-gray-800 dark:text-gray-200">
                             ${{$product->price }}
-                            <span class="ml-2 text-base font-normal text-gray-500 line-through dark:text-gray-400">$1800.99</span>
+                            <span class="ml-2 text-base font-normal text-gray-500 line-through dark:text-gray-400">${{ $product->price * 1.2 }}</span>
                         </p>
                         <p class="text-gray-700 dark:text-gray-400">
-                            {{ $product->description}}
+                            {!! $this->productDescription() !!}
                         </p>
                         <div>
                             <label class="block mb-2 text-lg font-medium text-gray-700 dark:text-gray-300">Quantity</label>
