@@ -11,8 +11,10 @@ new class extends Component {
 <div class="overflow-hidden transition-shadow bg-white rounded-lg shadow-sm hover:shadow-md">
     <div class="relative pt-[100%] w-full">
         <div class="absolute top-0 left-0 w-full h-full ">
-            <img src="{{ asset('storage/'.$this->product->lastImage()) }}"
-                alt="{{ $product->name }}" class="h-full mx-auto ">
+            <a wire:navigate href="{{ route('products.show' , ['product'=>$product->slug]) }}">
+                <img src="{{ asset('storage/'.$this->product->lastImage()) }}"
+                    alt="{{ $product->name }}" class="h-full mx-auto ">
+            </a>
         </div>
     </div>
     <div class="p-4">

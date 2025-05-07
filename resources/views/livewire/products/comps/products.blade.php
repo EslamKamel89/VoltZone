@@ -2,11 +2,13 @@
 
 use Livewire\Volt\Component;
 use App\Models\Product;
+use Livewire\WithPagination;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\Enums\FilterOperator;
 use Spatie\QueryBuilder\QueryBuilder;
 
 new class extends Component {
+    use WithPagination;
 
     public function with() {
         $products = QueryBuilder::for(Product::class)
@@ -17,7 +19,7 @@ new class extends Component {
                 AllowedFilter::exact('onsale', 'on_sale'),
                 AllowedFilter::operator('price', FilterOperator::LESS_THAN_OR_EQUAL,)
             ])
-            ->get();
+            ->paginate(10)->withQueryString();
         return [
             'products' => $products,
         ];
@@ -39,4 +41,5 @@ new class extends Component {
         </div>
         @endforelse
     </div>
+    <div class="mt-4">{{ $products->links() }}</div>
 </div>
