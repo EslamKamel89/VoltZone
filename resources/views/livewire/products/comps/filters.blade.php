@@ -4,6 +4,7 @@ use App\Helpers\pr;
 use Livewire\Volt\Component;
 use App\Models\Category;
 use App\Models\Brand;
+use App\Models\Product;
 use Illuminate\Support\Arr;
 
 new class extends Component {
@@ -13,11 +14,14 @@ new class extends Component {
     public Bool $showFilter = false;
     public Bool  $onSale;
     public Bool  $inStock;
+    public float $price  = 0;
+    public float $maxPrice = 0;
 
     public function with() {
         return [
             'brands' => Brand::all(),
             'categories' => Category::all(),
+            'maxPrice' => $this->maxPrice,
         ];
     }
     public function mount() {
@@ -26,6 +30,8 @@ new class extends Component {
         $this->selectedBrand = $this->query['filter']['brand'] ?? -1;
         $this->onSale = (bool) Arr::get($this->query, 'filter.onsale');
         $this->inStock = (bool) Arr::get($this->query, 'filter.instock');
+        $this->maxPrice = Product::max('price');
+        $this->price = (float) Arr::get($this->query, 'filter.price', $this->maxPrice);
     }
 
     public function updated($property) {
@@ -35,13 +41,15 @@ new class extends Component {
             } else {
                 $this->query['filter']['category'] = $this->selectedCategory;
             }
+            $this->filter();
         }
         if ($property == 'selectedBrand') {
-            if ($this->selectedBrand) {
+            if ($this->selectedBrand == -1) {
                 unset($this->query['filter']['brand']);
             } else {
                 $this->query['filter']['brand'] = $this->selectedBrand;
             }
+            $this->filter();
         }
         if ($property == 'onSale') {
             if (!$this->onSale) {
@@ -49,6 +57,7 @@ new class extends Component {
             } else {
                 $this->query['filter']['onsale'] = 1;
             }
+            $this->filter();
         }
         if ($property == 'inStock') {
             if (!$this->inStock) {
@@ -56,7 +65,18 @@ new class extends Component {
             } else {
                 $this->query['filter']['instock'] = 1;
             }
+            $this->filter();
         }
+        if ($property == 'price') {
+            if ($this->price >= $this->maxPrice) {
+                unset($this->query['filter']['price']);
+            } else {
+                $this->query['filter']['price'] = $this->price;
+            }
+            $this->filter();
+        }
+    }
+    public function filter() {
         $this->redirect(route(
             'products.index',
             $this->query,
@@ -109,16 +129,17 @@ new class extends Component {
             </div>
 
             <!-- Price Filter -->
-            <div>
+            <div x-data="{productPrice : $wire.price}">
                 <h3 class="mb-3 font-medium text-gray-700">Price Range</h3>
                 <div class="flex justify-between mb-2 text-sm text-gray-600">
                     <span>$0</span>
-                    <span>$2000</span>
+                    <span>${{ $maxPrice }}</span>
                 </div>
-                <input type="range" min="0" max="2000" value="2000"
+                <input type="range" min="0" max="{{ $maxPrice }}" value="2000" wire:model.live.debounce.750="price" x-model="productPrice"
                     class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
                 <div class="mt-2 text-right">
-                    <span class="text-sm font-medium text-gray-700">Max: $2000</span>
+                    <span class="text-sm font-medium text-gray-700">Max: </span>
+                    <span class="text-sm font-medium text-gray-700" x-text="'$'+productPrice"></span>
                 </div>
             </div>
         </div>

@@ -3,6 +3,7 @@
 use Livewire\Volt\Component;
 use App\Models\Product;
 use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\Enums\FilterOperator;
 use Spatie\QueryBuilder\QueryBuilder;
 
 new class extends Component {
@@ -14,6 +15,7 @@ new class extends Component {
                 AllowedFilter::exact('brand', 'brand_id'),
                 AllowedFilter::exact('instock', 'in_stock'),
                 AllowedFilter::exact('onsale', 'on_sale'),
+                AllowedFilter::operator('price', FilterOperator::LESS_THAN_OR_EQUAL,)
             ])
             ->get();
         return [
