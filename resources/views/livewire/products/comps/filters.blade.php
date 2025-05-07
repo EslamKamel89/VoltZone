@@ -4,12 +4,16 @@ use App\Helpers\pr;
 use Livewire\Volt\Component;
 use App\Models\Category;
 use App\Models\Brand;
+use Illuminate\Support\Arr;
 
 new class extends Component {
     public ?string $selectedCategory = null;
     public ?string $selectedBrand = null;
     public array $query;
     public Bool $showFilter = false;
+    public Bool  $onSale;
+    public Bool  $inStock;
+
     public function with() {
         return [
             'brands' => Brand::all(),
@@ -20,6 +24,8 @@ new class extends Component {
         $this->query = request()->all(['filter']) ?? ['filter' => null];
         $this->selectedCategory = $this->query['filter']['category'] ?? -1;
         $this->selectedBrand = $this->query['filter']['brand'] ?? -1;
+        $this->onSale = (bool) Arr::get($this->query, 'filter.onsale');
+        $this->inStock = (bool) Arr::get($this->query, 'filter.instock');
     }
 
     public function updated($property) {
@@ -31,10 +37,24 @@ new class extends Component {
             }
         }
         if ($property == 'selectedBrand') {
-            if ($this->selectedBrand == -1) {
+            if ($this->selectedBrand) {
                 unset($this->query['filter']['brand']);
             } else {
                 $this->query['filter']['brand'] = $this->selectedBrand;
+            }
+        }
+        if ($property == 'onSale') {
+            if (!$this->onSale) {
+                unset($this->query['filter']['onsale']);
+            } else {
+                $this->query['filter']['onsale'] = 1;
+            }
+        }
+        if ($property == 'inStock') {
+            if (!$this->inStock) {
+                unset($this->query['filter']['instock']);
+            } else {
+                $this->query['filter']['instock'] = 1;
             }
         }
         $this->redirect(route(
@@ -78,11 +98,11 @@ new class extends Component {
                 <h3 class="mb-3 font-medium text-gray-700">Product Status</h3>
                 <div class="space-y-2">
                     <label class="flex items-center">
-                        <input type="checkbox" class="text-blue-600 rounded">
+                        <input type="checkbox" class="text-blue-600 rounded" wire:model.live="inStock" />
                         <span class="ml-2 text-gray-600">In Stock</span>
                     </label>
                     <label class="flex items-center">
-                        <input type="checkbox" class="text-blue-600 rounded">
+                        <input type="checkbox" class="text-blue-600 rounded" wire:model.live="onSale" />
                         <span class="ml-2 text-gray-600">On Sale</span>
                     </label>
                 </div>
