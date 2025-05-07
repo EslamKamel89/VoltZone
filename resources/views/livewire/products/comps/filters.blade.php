@@ -19,8 +19,8 @@ new class extends Component {
 
     public function with() {
         return [
-            'brands' => Brand::all(),
-            'categories' => Category::all(),
+            'brands' => Brand::active()->get(),
+            'categories' => Category::active()->get(),
             'maxPrice' => $this->maxPrice,
         ];
     }
