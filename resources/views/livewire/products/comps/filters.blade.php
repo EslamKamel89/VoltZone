@@ -93,7 +93,7 @@ new class extends Component {
             <h2>Filters</h2>
             <flux:icon.funnel />
         </div>
-        <div class="mt-6 md:block {{ $showFilter  ? 'hidden' : '' }}">
+        <div class="mt-6 md:block {{ $showFilter? 'hidden' : '' }}">
             <!-- Categories Filter -->
             <div class="pb-6 mb-8 border-b border-gray-200">
                 <flux:radio.group wire:model.live="selectedCategory" label="Categories">

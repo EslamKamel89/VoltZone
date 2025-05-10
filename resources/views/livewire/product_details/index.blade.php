@@ -12,7 +12,6 @@ new
         public Product $product;
         public int $count = 0;
         public function mount() {
-            Debugbar::disable();
         }
         public function increment() {
             $this->count++;
