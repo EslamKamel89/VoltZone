@@ -11,7 +11,7 @@ new class extends Component {
 
 <div>
     <flux:modal.trigger name="{{ 'category'.$category->id }}">
-        <div class="block overflow-hidden transition-shadow bg-white border border-gray-100 shadow-sm group rounded-xl hover:shadow-md">
+        <a wire:navigate href="{{ route('products.index' , ['filter'=>['category'=>$category->id]]) }}" class="block overflow-hidden transition-shadow bg-white border border-gray-100 shadow-sm group rounded-xl hover:shadow-md">
             <div class="aspect-w-1 aspect-h-1">
                 <img
                     src="{{ asset('storage/'.$category->image) }}"
@@ -21,7 +21,7 @@ new class extends Component {
             <div class="p-4 text-center">
                 <h3 class="text-lg font-medium text-gray-900">{{ $category->name }}</h3>
             </div>
-        </div>
+        </a>
     </flux:modal.trigger>
 
     <flux:modal name="{{ 'category'.$category->id }}" class="md:w-96">

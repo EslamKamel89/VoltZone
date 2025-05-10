@@ -11,12 +11,12 @@ new class extends Component {
 
 <div>
     <flux:modal.trigger name="{{ 'brand'.$brand->id }}">
-        <div class="flex flex-col items-center justify-center p-6 transition-all bg-white border border-gray-100 shadow-sm rounded-xl hover:shadow-md group">
+        <a wire:navigate href="{{ route('products.index' , ['filter'=>['brand'=>$brand->id]]) }}" class="flex flex-col items-center justify-center p-6 transition-all bg-white border border-gray-100 shadow-sm rounded-xl hover:shadow-md group">
             <div class="flex items-center justify-center w-16 h-16 mb-3">
                 <img src="{{ asset('storage/'.$brand->image) }}" alt="{{ $brand->name }}" class="object-contain h-12">
             </div>
             <h3 class="font-medium text-gray-900">{{ $brand->name }}</h3>
-        </div>
+        </a>
     </flux:modal.trigger>
 
     <flux:modal name="{{ 'brand'.$brand->id }}" class="md:w-96">
