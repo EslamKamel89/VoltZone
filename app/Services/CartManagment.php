@@ -82,9 +82,40 @@ class CartManagment {
         return [];
     }
 
-    // todo: increment item quantity
+    //  increment item quantity
+    static public function incrementItemQuantity(int |string $productId) {
+        $cartItems  = self::getCartItemsFromCookie();
+        foreach ($cartItems as $index => $item) {
+            if ($item['product_id'] == $productId) {
+                $cartItems[$index]['quantity'] = (int)$cartItems[$index]['quantity'] + 1;
+                $cartItems[$index]['total_amount'] = $cartItems[$index]['quantity'] * $cartItems[$index]['unit_amount'];
+                break;
+            }
+        }
+        self::addCartItemsToCookie($cartItems);
+        return $cartItems;
+    }
 
-    // todo: decrement item quantity
-
-    // todo: calculate grand total
+    //  decrement item quantity
+    static public function decrementItemQuantity(int |string $productId) {
+        $cartItems  = self::getCartItemsFromCookie();
+        foreach ($cartItems as $index => $item) {
+            if ($item['product_id'] == $productId) {
+                if ($cartItems[$index]['quantity'] > 1) {
+                    $cartItems[$index]['quantity'] = (int)$cartItems[$index]['quantity'] - 1;
+                    $cartItems[$index]['total_amount'] = $cartItems[$index]['quantity'] * $cartItems[$index]['unit_amount'];
+                } elseif ($cartItems[$index]['quantity'] == 1) {
+                    unset($cartItems[$index]);
+                }
+                break;
+            }
+        }
+        self::addCartItemsToCookie($cartItems);
+        return $cartItems;
+    }
+    //  calculate grand total
+    static public function grandTotal() {
+        $cartItems  = self::getCartItemsFromCookie();
+        return array_sum(array_column($cartItems, 'total_amount'));
+    }
 }
