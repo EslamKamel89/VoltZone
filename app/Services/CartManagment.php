@@ -18,7 +18,10 @@ class CartManagment {
         );
     }
 
-    // todo: clear cart tiems from cookie
+    // clear cart items from cookie
+    static public function clearCartItemsFromCookie() {
+        cookie()->forget(self::$cookieName);
+    }
 
     // todo: get all cart items from cookie
 
