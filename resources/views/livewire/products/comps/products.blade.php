@@ -4,6 +4,7 @@ use Livewire\Volt\Component;
 use App\Models\Product;
 use Livewire\WithPagination;
 use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\AllowedSort;
 use Spatie\QueryBuilder\Enums\FilterOperator;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -19,6 +20,8 @@ new class extends Component {
                 AllowedFilter::exact('onsale', 'on_sale'),
                 AllowedFilter::operator('price', FilterOperator::LESS_THAN_OR_EQUAL,)
             ])
+            ->allowedSorts(['created_at', 'price'])
+            ->defaultSort('-created_at')
             ->paginate(10)->withQueryString();
         return [
             'products' => $products,
@@ -26,9 +29,7 @@ new class extends Component {
     }
 }; ?>
 
-<div class="w-full md:w-3/4">
-
-
+<div class="w-full ">
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         @forelse ($products as $product )
         <livewire:products.comps.product :product="$product" :key="'products.index'.$product->id" />

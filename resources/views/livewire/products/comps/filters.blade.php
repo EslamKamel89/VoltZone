@@ -25,7 +25,7 @@ new class extends Component {
         ];
     }
     public function mount() {
-        $this->query = request()->all(['filter']) ?? ['filter' => null];
+        $this->query = request()->all(['filter', 'sort']) ?? ['filter' => null];
         $this->selectedCategory = $this->query['filter']['category'] ?? -1;
         $this->selectedBrand = $this->query['filter']['brand'] ?? -1;
         $this->onSale = (bool) Arr::get($this->query, 'filter.onsale');
