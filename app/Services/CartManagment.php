@@ -45,7 +45,19 @@ class CartManagment {
         return count($cartItems);
     }
 
-    // todo: remove item from cart
+    //  remove item from cart
+    static public function removeCartItem(int|string $productId) {
+        $cartItems = self::getCartItemsFromCookie();
+        foreach ($cartItems as $index => $item) {
+            if ($item['product_id'] == $productId) {
+                unset($cartItems[$index]);
+                // $cartItems = array_values($cartItems);
+                break;
+            }
+        }
+        self::addcartItemsToCookie($cartItems);
+        return $cartItems;
+    }
 
     // add cart items to cookie
     static public function addcartItemsToCookie(array $cart_items) {
