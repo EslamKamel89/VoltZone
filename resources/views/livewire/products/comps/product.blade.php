@@ -77,22 +77,29 @@ new class extends Component {
     @script
     <script>
         let product = null;
+        let showToast = (event) => {
+            Toastify({
+                text: event[0].message ?? 'Success',
+                duration: 3000,
+                newWindow: true,
+                close: true,
+                gravity: "top",
+                position: "right",
+                style: {
+                    background: "linear-gradient(to right, #fe5725, #b13717)"
+                },
+                // avatar: "https://img.icons8.com/ios-filled/50/000000/checkmark.png",
+                stopOnFocus: true
+            }).showToast();
+        };
         $wire.getProduct().then((p) => {
             product = p;
-            Livewire.on('item-added-to-cart.' + product?.id, (event) => {
-                Toastify({
-                    text: event[0].message ?? 'Success',
-                    duration: 3000,
-                    newWindow: true,
-                    close: true,
-                    gravity: "top",
-                    position: "right",
-                    style: {
-                        background: "linear-gradient(to right, #fe5725, #b13717)"
-                    },
-                    // avatar: "https://img.icons8.com/ios-filled/50/000000/checkmark.png",
-                    stopOnFocus: true
-                }).showToast();
+            Livewire.on('item-added-to-cart.' + product?.id, showToast)
+            Livewire.hook('component.init', ({
+                component,
+                cleanup
+            }) => {
+                el.removeEventListener('item-added-to-cart.' + product?.id, showToast)
             })
 
         });
