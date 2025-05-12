@@ -25,32 +25,77 @@ new class extends Component {
     public function handleAddToCart() {
         CartManagment::addItemToCart($this->product->id);
         $this->quantity++;
-        // pr::log(CartManagment::getCartItemsFromCookie(), 'cartItems');
+        $this->dispatch(
+            'item-added-to-cart.' . $this->product->id,
+            ['message' => "{$this->product->name} added to cart"]
+        );
     }
     public function with() {
+        $badge = null;
+        if ($this->product->is_featured) $badge = 'Featured';
+        if ($this->product->on_sale) $badge = 'On Sale';
 
         return [
-            // 'productInCartInfo' => $productInCartInfo,
+            'badge' => $badge,
         ];
+    }
+    public function getProduct() {
+        return $this->product;
     }
 }; ?>
 
-<div class="overflow-hidden transition-shadow bg-white rounded-lg shadow-sm hover:shadow-md">
-    <div class="relative pt-[100%] w-full">
-        <div class="absolute top-0 left-0 w-full h-full ">
-            <a wire:navigate href="{{ route('products.show' , ['product'=>$product->slug]) }}">
-                <img src="{{ asset('storage/'.$this->product->lastImage()) }}"
-                    alt="{{ $product->name }}" class="h-full mx-auto ">
+<div class="overflow-hidden transition-shadow duration-300 bg-white shadow-md rounded-xl hover:shadow-xl">
+    <!-- Image Container -->
+    <div class="relative pt-[100%] w-full bg-gray-100 rounded-t-xl overflow-hidden group">
+        <div class="absolute inset-0 flex items-center justify-center transition-transform duration-300 transform group-hover:scale-105">
+            <a wire:navigate href="{{ route('products.show', ['product' => $product->slug]) }}">
+                <img src="{{ asset('storage/' . $this->product->lastImage()) }}"
+                    alt="{{ $product->name }}"
+                    class="object-cover object-center w-full h-full">
             </a>
         </div>
+
+        @if($badge)
+        <div class="absolute top-2 left-2">
+            <span class="px-2 py-1 text-xs font-semibold text-white bg-red-500 rounded">{{ $badge }}</span>
+        </div>
+        @endif
     </div>
+
+    <!-- Content -->
     <div class="p-4">
-        <h3 class="mb-1 font-medium text-gray-900">{{ $product->name }}</h3>
+        <h3 class="text-lg font-semibold text-gray-900 line-clamp-1">{{ $product->name }}</h3>
         <div class="flex items-center justify-between mt-2">
-            <span class="font-semibold text-gray-800">${{ $product->price }}</span>
-            <button wire:loading.attr="disabled" wire:click="handleAddToCart" class="px-3 py-1 text-sm text-white transition-colors bg-blue-600 rounded disabled:opacity-50 hover:bg-blue-700">
-                {{ $quantity ?"Add 1 more to Cart ({$quantity})": "Add to Cart" }}
+            <span class="text-lg font-bold text-gray-800">${{ $product->price }}</span>
+            <button wire:loading.attr="disabled"
+                wire:click="handleAddToCart"
+                class="px-4 py-2 text-sm font-medium text-white transition-colors duration-200 rounded-lg shadow-sm bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-60 disabled:cursor-not-allowed">
+                {{ $quantity ? "Add More ({$quantity})" : "Add to Cart" }}
             </button>
         </div>
     </div>
+    @script
+    <script>
+        let product = null;
+        $wire.getProduct().then((p) => {
+            product = p;
+            Livewire.on('item-added-to-cart.' + product?.id, (event) => {
+                Toastify({
+                    text: event[0].message ?? 'Success',
+                    duration: 3000,
+                    newWindow: true,
+                    close: true,
+                    gravity: "top",
+                    position: "right",
+                    style: {
+                        background: "linear-gradient(to right, #fe5725, #b13717)"
+                    },
+                    // avatar: "https://img.icons8.com/ios-filled/50/000000/checkmark.png",
+                    stopOnFocus: true
+                }).showToast();
+            })
+
+        });
+    </script>
+    @endscript
 </div>

@@ -12,6 +12,7 @@
         <a href="{{ route('home') }}" class="flex items-center space-x-2 ms-2 me-5 rtl:space-x-reverse lg:ms-0" wire:navigate>
             <x-app-logo />
         </a>
+
         <div class="flex justify-end w-full mx-4">
             <flux:navbar class="-mb-px max-lg:hidden">
 
@@ -110,9 +111,18 @@
 
         {{ $slot }}
     </div>
+
     @include('components.layouts.app.footer')
 
     @fluxScripts
+    <!-- Toastify CSS -->
+    <link
+        rel="stylesheet"
+        type="text/css"
+        href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" />
+
+    <!-- Toastify JS -->
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </body>
 
 </html>
