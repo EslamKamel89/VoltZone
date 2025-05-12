@@ -2,11 +2,12 @@
 
 namespace App\Services;
 
+use App\Helpers\pr;
 use App\Models\Product;
 use Illuminate\Support\Facades\Cookie;
 
 class CartManagment {
-    static public string $cookieName = '$cart_items';
+    static public string $cookieName = 'cart_items';
     static public int $expiryTime = 60 * 24 * 30;
     static protected  $cartItemStructureExample = [
         'product_id' => 1,
@@ -25,7 +26,8 @@ class CartManagment {
                 break;
             }
         }
-        if ($existingItemIndex) {
+        // pr::log($existingItemIndex, 'existingItemIndex');
+        if ($existingItemIndex !== null) {
             $cartItems[$existingItemIndex]['quantity'] =
                 (int)$cartItems[$existingItemIndex]['quantity'] + 1;
             $cartItems[$existingItemIndex]['total_amount'] =
@@ -41,6 +43,7 @@ class CartManagment {
                 'image' => array_reverse($product->images)[0],
             ];
         }
+        // pr::log($cartItems, 'cartItems');
         self::addCartItemsToCookie($cartItems);
         return count($cartItems);
     }
@@ -61,7 +64,7 @@ class CartManagment {
 
     // add cart items to cookie
     static public function addcartItemsToCookie(array $cart_items) {
-        cookie(
+        Cookie::queue(
             self::$cookieName,
             json_encode($cart_items),
             self::$expiryTime
@@ -70,7 +73,7 @@ class CartManagment {
 
     // clear cart items from cookie
     static public function clearCartItemsFromCookie() {
-        cookie()->forget(self::$cookieName);
+        Cookie::queue(self::$cookieName, null, -1);
     }
 
     // get all cart items from cookie

@@ -13,9 +13,6 @@ Volt::route('/products', 'products.index')
 Volt::route('/cart', 'cart.index')
     ->name('cart.index');
 Volt::route('/products/{product:slug}', "product_details.index")->name('products.show');
-// Route::get('/products/{product:slug}', function (Product $product) {
-//     dd($product);
-// })->name('products.show');
 Volt::route('/checkout', 'checkout.index')->name('checkout.index');
 Volt::route('/orders', 'orders.index')->name('orders.index');
 Volt::route('/orders/{order}', 'order.index')->name('orders.show');
