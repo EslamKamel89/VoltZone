@@ -23,12 +23,17 @@ new class extends Component {
     }
 
     public function handleAddToCart() {
-        CartManagment::addItemToCart($this->product->id);
+        $totalCount =   CartManagment::addItemToCart($this->product->id);
         $this->quantity++;
+        // $this->dispatch(
+        //     'item-added-to-cart.' . $this->product->id,
+        //     ['message' => "{$this->product->name} added to cart"]
+        // );
         $this->dispatch(
-            'item-added-to-cart.' . $this->product->id,
+            'show-toast',
             ['message' => "{$this->product->name} added to cart"]
         );
+        $this->dispatch('cart-updated', ['count' => $totalCount]);
     }
     public function with() {
         $badge = null;
@@ -74,35 +79,5 @@ new class extends Component {
             </button>
         </div>
     </div>
-    @script
-    <script>
-        let product = null;
-        let showToast = (event) => {
-            Toastify({
-                text: event[0].message ?? 'Success',
-                duration: 3000,
-                newWindow: true,
-                close: true,
-                gravity: "top",
-                position: "right",
-                style: {
-                    background: "linear-gradient(to right, #fe5725, #b13717)"
-                },
-                // avatar: "https://img.icons8.com/ios-filled/50/000000/checkmark.png",
-                stopOnFocus: true
-            }).showToast();
-        };
-        $wire.getProduct().then((p) => {
-            product = p;
-            Livewire.on('item-added-to-cart.' + product?.id, showToast)
-            Livewire.hook('component.init', ({
-                component,
-                cleanup
-            }) => {
-                el.removeEventListener('item-added-to-cart.' + product?.id, showToast)
-            })
 
-        });
-    </script>
-    @endscript
 </div>

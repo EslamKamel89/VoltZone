@@ -26,7 +26,7 @@
                     {{'Products' }}
                 </flux:navbar.item>
                 <flux:navbar.item icon="shopping-cart" :href="route('cart.index')" :current="request()->routeIs('cart.index')" wire:navigate>
-                    {{'Cart' }}
+                    <livewire:cart.comps.header_count />
                 </flux:navbar.item>
             </flux:navbar>
         </div>
@@ -89,7 +89,7 @@
                     {{ 'Products' }}
                 </flux:navlist.item>
                 <flux:navlist.item icon="shopping-cart" :href="route('cart.index')" :current="request()->routeIs('cart.index')" wire:navigate>
-                    {{ 'Cart' }}
+                    <livewire:cart.comps.header_count />
                 </flux:navlist.item>
             </flux:navlist.group>
         </flux:navlist>
@@ -123,6 +123,7 @@
 
     <!-- Toastify JS -->
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
 </body>
 
 </html>
