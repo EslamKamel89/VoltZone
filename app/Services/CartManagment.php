@@ -16,6 +16,8 @@ class CartManagment {
         'total_amount' => 3, // total price for all products unit_amount * quantity
         'image' => 'http://fake.com',
     ];
+
+
     //  add item to cart
     static public function addItemToCart(int | string $productId): int {
         $cartItems  = self::getCartItemsFromCookie();
@@ -59,7 +61,7 @@ class CartManagment {
             }
         }
         self::addcartItemsToCookie($cartItems);
-        return $cartItems;
+        return count($cartItems);
     }
 
     // add cart items to cookie
@@ -120,5 +122,16 @@ class CartManagment {
     static public function grandTotal() {
         $cartItems  = self::getCartItemsFromCookie();
         return array_sum(array_column($cartItems, 'total_amount'));
+    }
+
+    static public function getSingleItemCount(int | string $productId) {
+        $totalCount = 0;
+        $items = self::getCartItemsFromCookie();
+        foreach ($items as $index => $item) {
+            if ($item['product_id'] == $productId) {
+                $totalCount += $item['quantity'];
+                return $totalCount;
+            }
+        }
     }
 }

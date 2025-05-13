@@ -1,6 +1,7 @@
 <?php
 
 use App\Helpers\pr;
+use App\Services\CartManagment;
 use Livewire\Attributes\Title;
 use Livewire\Volt\Component;
 use App\Models\Product;
@@ -12,12 +13,18 @@ new
         public Product $product;
         public int $count = 0;
         public function mount() {
+            $this->count = CartManagment::getSingleItemCount($this->product->id) ?? 0;
         }
         public function increment() {
             $this->count++;
+            $totalCount =  CartManagment::addItemToCart($this->product->id);
+            $this->dispatch('cart-updated', ['count' => $totalCount]);
         }
         public function decrement() {
+            if ($this->count < 1) return;
             $this->count--;
+            $totalCount =    CartManagment::removeCartItem($this->product->id);
+            $this->dispatch('cart-updated', ['count' => $totalCount]);
         }
     }; ?>
 
@@ -65,7 +72,7 @@ new
                         <div>
                             <label class="block mb-2 text-lg font-medium text-gray-700 dark:text-gray-300">Quantity</label>
                             <div x-data="{count : {{ $count }} }" class="flex items-center max-w-xs overflow-hidden bg-gray-300 rounded-lg dark:bg-gray-900">
-                                <button wire:click="decrement" @click="count--" class="flex items-center justify-center w-10 h-10 text-xl text-white bg-gray-400 dark:bg-gray-700 hover:bg-gray-500 dark:hover:bg-gray-600">-</button>
+                                <button wire:click="decrement" @click="()=>{if(count > 0)count--}" class="flex items-center justify-center w-10 h-10 text-xl text-white bg-gray-400 dark:bg-gray-700 hover:bg-gray-500 dark:hover:bg-gray-600">-</button>
                                 <input readonly type="number" class="w-full text-lg text-center text-gray-800 bg-gray-300 dark:bg-gray-900 dark:text-gray-200" :value="count">
                                 <button wire:click="increment" @click="count++" class="flex items-center justify-center w-10 h-10 text-xl text-white bg-gray-400 dark:bg-gray-700 hover:bg-gray-500 dark:hover:bg-gray-600">+</button>
                             </div>
