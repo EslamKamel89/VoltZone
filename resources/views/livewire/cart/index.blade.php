@@ -1,12 +1,23 @@
 <?php
 
+use App\Models\Product;
+use App\Services\CartManagment;
 use Livewire\Attributes\Title;
 use Livewire\Volt\Component;
 
 new
     #[Title('Cart')]
     class extends Component {
-        //
+        public array $cartItems = [];
+        public function mount() {
+            $this->cartItems = CartManagment::getCartItemsFromCookie();
+            foreach ($this->cartItems as $index => $item) {
+                $product = Product::findOrFail($item['product_id']);
+                $this->cartItems[$index]['product'] = $product;
+
+                // dd($this->cartItems);
+            }
+        }
     }; ?>
 
 
@@ -22,11 +33,11 @@ new
             <!-- Cart Items - Left Column -->
             <div class="lg:w-2/3">
                 <!-- Desktop Table -->
-                <div class="hidden overflow-hidden bg-white shadow-sm md:block rounded-xl">
-                    <table class="w-full divide-y divide-gray-200">
+                <div class="hidden overflow-x-auto bg-white shadow-sm md:block rounded-xl">
+                    <table class="w-full divide-y divide-gray-200 ">
                         <thead class="bg-gray-50">
                             <tr>
-                                <th scope="col" class="px-6 py-3 text-sm font-medium tracking-wider text-left text-gray-500 uppercase">Product</th>
+                                <th scope="col" class="px-6 py-3 text-sm font-medium tracking-wider text-left text-gray-500 uppercase ">Product</th>
                                 <th scope="col" class="px-6 py-3 text-sm font-medium tracking-wider text-left text-gray-500 uppercase">Price</th>
                                 <th scope="col" class="px-6 py-3 text-sm font-medium tracking-wider text-left text-gray-500 uppercase">Quantity</th>
                                 <th scope="col" class="px-6 py-3 text-sm font-medium tracking-wider text-left text-gray-500 uppercase">Total</th>
@@ -34,71 +45,50 @@ new
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
-                            <!-- Product 1 -->
+                            @forelse ($cartItems as $item )
                             <tr>
-                                <td class="px-6 py-4 whitespace-nowrap">
+                                <td class="max-w-md px-6 py-4 whitespace-normal ">
                                     <div class="flex items-center">
                                         <div class="flex-shrink-0 w-16 h-16 overflow-hidden rounded-lg">
-                                            <img class="object-cover w-full h-full" src="https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb" alt="Product image">
+                                            <img src="{{ asset('storage/' . $item['product']->lastImage()) }}"
+                                                alt="{{ $item['product']->name }}"
+                                                class="object-cover object-center w-full h-full">
                                         </div>
                                         <div class="ml-4">
-                                            <div class="text-sm font-medium text-gray-900">iPhone 13 Pro</div>
-                                            <div class="text-sm text-gray-500">256GB, Silver</div>
+                                            <div class="text-sm font-medium text-gray-900">{{ $item['product']->name }}</div>
+                                            <div class="text-sm text-gray-500 line-clamp-3">{!! str($item['product']->description )->limit(50)->markdown( ) !!}</div>
                                         </div>
                                     </div>
                                 </td>
-                                <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">$999.00</td>
+                                <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">{{ Number::currency($item['product']->price , 'USD') }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="flex items-center">
                                         <button class="text-gray-500 hover:text-gray-700">
-                                            <i class="fas fa-minus"></i>
+                                            <flux:icon.minus />
                                         </button>
-                                        <input type="number" value="1" min="1" class="w-12 mx-2 text-center border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                                        <input type="number" value="{{ $item['quantity'] }}" min="1" class="w-12 mx-2 text-center border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
                                         <button class="text-gray-500 hover:text-gray-700">
-                                            <i class="fas fa-plus"></i>
+                                            <flux:icon.plus />
                                         </button>
                                     </div>
                                 </td>
-                                <td class="px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap">$999.00</td>
+                                <td class="px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap">{{ Number::currency($item['total_amount']) }}</td>
                                 <td class="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
                                     <button class="text-red-600 hover:text-red-900">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </td>
                             </tr>
+                            @empty
+                            <tr>
+                                <td class="" colspan="4">
+                                    <div class="w-full my-4 text-sm text-center text-gray-600"> There are no items in your cart</div>
+                                </td>
+                            </tr>
+                            @endforelse
 
-                            <!-- Product 2 -->
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="flex items-center">
-                                        <div class="flex-shrink-0 w-16 h-16 overflow-hidden rounded-lg">
-                                            <img class="object-cover w-full h-full" src="https://images.unsplash.com/photo-1546054454-aa26e2b734c7" alt="Product image">
-                                        </div>
-                                        <div class="ml-4">
-                                            <div class="text-sm font-medium text-gray-900">Wireless Headphones</div>
-                                            <div class="text-sm text-gray-500">Noise Cancelling</div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">$199.00</td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="flex items-center">
-                                        <button class="text-gray-500 hover:text-gray-700">
-                                            <i class="fas fa-minus"></i>
-                                        </button>
-                                        <input type="number" value="1" min="1" class="w-12 mx-2 text-center border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
-                                        <button class="text-gray-500 hover:text-gray-700">
-                                            <i class="fas fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap">$199.00</td>
-                                <td class="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
-                                    <button class="text-red-600 hover:text-red-900">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </td>
-                            </tr>
+
+
                         </tbody>
                     </table>
                 </div>
