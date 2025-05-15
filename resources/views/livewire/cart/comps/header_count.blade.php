@@ -22,4 +22,9 @@ new class extends Component {
         <span class="absolute px-2 py-1 text-white border rounded-full -top-2 -right-7 bg-accent"> {{ $totalCount  }}</span>
         @endif
     </span>
+    @script
+    <script>
+        window.Flux.appearance = "light";
+    </script>
+    @endscript
 </div>

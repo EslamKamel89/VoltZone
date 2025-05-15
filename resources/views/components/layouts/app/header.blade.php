@@ -115,6 +115,7 @@
     @include('components.layouts.app.footer')
 
     @fluxScripts
+
     <!-- Toastify CSS -->
     <link
         rel="stylesheet"
