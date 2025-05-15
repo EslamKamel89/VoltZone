@@ -11,12 +11,23 @@ new
         public array $cartItems = [];
         public function mount() {
             $this->cartItems = CartManagment::getCartItemsFromCookie();
+            $this->getProductDetails();
+        }
+        public function getProductDetails() {
             foreach ($this->cartItems as $index => $item) {
                 $product = Product::findOrFail($item['product_id']);
                 $this->cartItems[$index]['product'] = $product;
-
-                // dd($this->cartItems);
             }
+        }
+        public function increment(int $productId) {
+            $this->cartItems =  CartManagment::incrementItemQuantity($productId);
+            $this->getProductDetails();
+            $this->dispatch('cart-updated', ['count' => count($this->cartItems)]);
+        }
+        public function decrement(int $productId) {
+            $this->cartItems =  CartManagment::decrementItemQuantity($productId);
+            $this->getProductDetails();
+            $this->dispatch('cart-updated', ['count' => count($this->cartItems)]);
         }
     }; ?>
 
@@ -63,11 +74,11 @@ new
                                 <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">{{ Number::currency($item['product']->price , 'USD') }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="flex items-center">
-                                        <button class="text-gray-500 hover:text-gray-700">
+                                        <button class="text-gray-500 hover:text-gray-700" wire:click.prevent="decrement({{ $item['product']->id }})">
                                             <flux:icon.minus />
                                         </button>
                                         <input type="number" value="{{ $item['quantity'] }}" min="1" class="w-12 mx-2 text-center border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
-                                        <button class="text-gray-500 hover:text-gray-700">
+                                        <button class="text-gray-500 hover:text-gray-700" wire:click.prevent="increment({{ $item['product']->id }})">
                                             <flux:icon.plus />
                                         </button>
                                     </div>
