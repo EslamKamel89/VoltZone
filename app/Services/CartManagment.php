@@ -61,7 +61,7 @@ class CartManagment {
             }
         }
         self::addcartItemsToCookie($cartItems);
-        return count($cartItems);
+        return $cartItems;
     }
 
     // add cart items to cookie

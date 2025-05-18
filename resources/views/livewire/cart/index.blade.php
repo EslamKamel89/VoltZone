@@ -9,9 +9,11 @@ new
     #[Title('Cart')]
     class extends Component {
         public array $cartItems = [];
+        public float $grandTotal = 0;
         public function mount() {
             $this->cartItems = CartManagment::getCartItemsFromCookie();
             $this->getProductDetails();
+            $this->grandTotal = CartManagment::grandTotal();
         }
         public function getProductDetails() {
             foreach ($this->cartItems as $index => $item) {
@@ -21,12 +23,19 @@ new
         }
         public function increment(int $productId) {
             $this->cartItems =  CartManagment::incrementItemQuantity($productId);
-            $this->getProductDetails();
-            $this->dispatch('cart-updated', ['count' => count($this->cartItems)]);
+            $this->updateCartItems();
         }
         public function decrement(int $productId) {
             $this->cartItems =  CartManagment::decrementItemQuantity($productId);
+            $this->updateCartItems();
+        }
+        public function removeItemFromCart(int $productId) {
+            $this->cartItems = CartManagment::removeCartItem($productId);
+            $this->updateCartItems();
+        }
+        public function updateCartItems() {
             $this->getProductDetails();
+            $this->grandTotal = array_sum(array_column($this->cartItems, 'total_amount'));
             $this->dispatch('cart-updated', ['count' => count($this->cartItems)]);
         }
     }; ?>
@@ -37,9 +46,10 @@ new
         <!-- Header -->
         <div class="flex items-center justify-between mb-8">
             <h1 class="text-3xl font-bold text-gray-900">Your Cart</h1>
-            <span class="text-gray-500">2 items</span>
+            @if (count($cartItems))
+            <span class="text-gray-500">{{ count($cartItems) }} Items</span>
+            @endif
         </div>
-
         <div class="flex flex-col gap-8 lg:flex-row">
             <!-- Cart Items - Left Column -->
             <div class="lg:w-2/3">
@@ -74,21 +84,22 @@ new
                                 <td class="px-6 py-4 text-sm text-gray-900 whitespace-nowrap">{{ Number::currency($item['product']->price , 'USD') }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="flex items-center">
-                                        <button class="text-gray-500 hover:text-gray-700" wire:click.prevent="decrement({{ $item['product']->id }})">
+                                        <button class="text-gray-500 cursor-pointer hover:scale-105 hover:text-gray-700" wire:click.prevent="decrement({{ $item['product']->id }})">
                                             <flux:icon.minus />
                                         </button>
-                                        <input type="number" value="{{ $item['quantity'] }}" min="1" class="w-12 mx-2 text-center border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
-                                        <button class="text-gray-500 hover:text-gray-700" wire:click.prevent="increment({{ $item['product']->id }})">
+                                        <input disabled type="number" value="{{ $item['quantity'] }}" min="1" class="w-12 mx-2 text-center border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                                        <button class="text-gray-500 cursor-pointer hover:scale-105 hover:text-gray-700" wire:click.prevent="increment({{ $item['product']->id }})">
                                             <flux:icon.plus />
                                         </button>
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap">{{ Number::currency($item['total_amount']) }}</td>
-                                <td class="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
-                                    <button class="text-red-600 hover:text-red-900">
-                                        <i class="fas fa-trash"></i>
+                                <td class="px-6 py-4 text-sm font-medium text-gray-900 whitespace-nowrap">
+                                    <button class="cursor-pointer hover:text-red-500 hover:scale-105" wire:click="removeItemFromCart({{ $item['product']->id }})">
+                                        <flux:icon.trash />
                                     </button>
                                 </td>
+
                             </tr>
                             @empty
                             <tr>
@@ -97,76 +108,45 @@ new
                                 </td>
                             </tr>
                             @endforelse
-
-
-
                         </tbody>
                     </table>
                 </div>
-
                 <!-- Mobile List -->
                 <div class="space-y-4 md:hidden">
-                    <!-- Product 1 -->
+                    @forelse ($cartItems as $item )
                     <div class="p-4 bg-white shadow-sm rounded-xl">
                         <div class="flex justify-between">
                             <div class="flex items-center space-x-4">
                                 <div class="flex-shrink-0 w-16 h-16 overflow-hidden rounded-lg">
-                                    <img class="object-cover w-full h-full" src="https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb" alt="Product image">
+                                    <img class="object-cover w-full h-full" src="{{ asset('storage/' . $item['product']->lastImage()) }}" alt="{{ $item['product']->name }}">
                                 </div>
                                 <div>
-                                    <h3 class="font-medium text-gray-900">iPhone 13 Pro</h3>
-                                    <p class="text-sm text-gray-500">256GB, Silver</p>
+                                    <h3 class="font-medium text-gray-900">{{ $item['product']->name }}</h3>
                                 </div>
                             </div>
-                            <button class="text-gray-400 hover:text-red-500">
-                                <i class="fas fa-trash"></i>
+                            <button class="cursor-pointer hover:text-red-500 hover:scale-105" wire:click="removeItemFromCart({{ $item['product']->id }})">
+                                <flux:icon.trash />
                             </button>
                         </div>
 
                         <div class="flex items-center justify-between mt-4">
                             <div class="flex items-center">
-                                <button class="text-gray-500 hover:text-gray-700">
-                                    <i class="fas fa-minus"></i>
+                                <button class="text-gray-500 cursor-pointer hover:scale-105 hover:text-gray-700" wire:click.prevent="decrement({{ $item['product']->id }})">
+                                    <flux:icon.minus />
                                 </button>
-                                <input type="number" value="1" min="1" class="w-12 mx-2 text-center border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
-                                <button class="text-gray-500 hover:text-gray-700">
-                                    <i class="fas fa-plus"></i>
+                                <input disabled type="number" value="{{ $item['quantity'] }}" min="1" class="w-12 mx-2 text-center border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                                <button class="text-gray-500 cursor-pointer hover:scale-105 hover:text-gray-700" wire:click.prevent="increment({{ $item['product']->id }})">
+                                    <flux:icon.plus />
                                 </button>
                             </div>
-                            <span class="font-medium">$999.00</span>
+                            <span class="font-medium">{{Number::currency($item['product']->price , 'USD')}}</span>
                         </div>
                     </div>
-
-                    <!-- Product 2 -->
+                    @empty
                     <div class="p-4 bg-white shadow-sm rounded-xl">
-                        <div class="flex justify-between">
-                            <div class="flex items-center space-x-4">
-                                <div class="flex-shrink-0 w-16 h-16 overflow-hidden rounded-lg">
-                                    <img class="object-cover w-full h-full" src="https://images.unsplash.com/photo-1546054454-aa26e2b734c7" alt="Product image">
-                                </div>
-                                <div>
-                                    <h3 class="font-medium text-gray-900">Wireless Headphones</h3>
-                                    <p class="text-sm text-gray-500">Noise Cancelling</p>
-                                </div>
-                            </div>
-                            <button class="text-gray-400 hover:text-red-500">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-
-                        <div class="flex items-center justify-between mt-4">
-                            <div class="flex items-center">
-                                <button class="text-gray-500 hover:text-gray-700">
-                                    <i class="fas fa-minus"></i>
-                                </button>
-                                <input type="number" value="1" min="1" class="w-12 mx-2 text-center border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
-                                <button class="text-gray-500 hover:text-gray-700">
-                                    <i class="fas fa-plus"></i>
-                                </button>
-                            </div>
-                            <span class="font-medium">$199.00</span>
-                        </div>
+                        <div class="w-full my-4 text-sm text-center text-gray-600"> There are no items in your cart</div>
                     </div>
+                    @endforelse
                 </div>
             </div>
 
@@ -178,7 +158,7 @@ new
                     <div class="space-y-4">
                         <div class="flex justify-between">
                             <span class="text-gray-600">Subtotal</span>
-                            <span>$1,198.00</span>
+                            <span>{{ Number::currency($grandTotal , 'USD') }}</span>
                         </div>
                         <div class="flex justify-between">
                             <span class="text-gray-600">Shipping</span>
@@ -186,24 +166,24 @@ new
                         </div>
                         <div class="flex justify-between">
                             <span class="text-gray-600">Taxes</span>
-                            <span>$95.84</span>
+                            <span>{{ Number::currency($grandTotal * 0.012 , 'USD') }}</span>
                         </div>
 
                         <div class="pt-4 mt-4 border-t border-gray-200">
                             <div class="flex justify-between font-bold">
                                 <span>Total</span>
-                                <span>$1,293.84</span>
+                                <span>{{ Number::currency($grandTotal * 1.012 , 'USD') }}</span>
                             </div>
                         </div>
                     </div>
-
-                    <button class="w-full px-4 py-3 mt-6 font-medium text-white transition-colors bg-blue-600 rounded-lg shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                        Proceed to Checkout
-                    </button>
-
-                    <div class="flex items-center justify-center mt-4 space-x-2 text-sm text-gray-500">
-                        <i class="fas fa-lock"></i>
-                        <span>Secure checkout</span>
+                    <div class="flex flex-col items-center w-full">
+                        <button class="px-4 py-3 mt-6 font-medium text-white transition-colors bg-blue-600 rounded-lg shadow-sm cursor-pointer hover:scale-105 cursor-pointerw-full hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                            Proceed to Checkout
+                        </button>
+                        <div class="flex items-center justify-center mt-4 space-x-2 text-sm text-gray-500">
+                            <flux:icon.lock-closed />
+                            <span>Secure checkout</span>
+                        </div>
                     </div>
                 </div>
             </div>
