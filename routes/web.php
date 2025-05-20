@@ -13,7 +13,6 @@ Volt::route('/products', 'products.index')
 Volt::route('/cart', 'cart.index')
     ->name('cart.index');
 Volt::route('/products/{product:slug}', "product_details.index")->name('products.show');
-Volt::route('/checkout', 'checkout.index')->name('checkout.index');
 Volt::route('/orders', 'orders.index')->name('orders.index');
 Volt::route('/orders/{order}', 'order.index')->name('orders.show');
 Volt::route('/success', 'success.index')->name('success.index');
@@ -28,6 +27,7 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('settings/profile', 'settings.profile')->name('settings.profile');
     Volt::route('settings/password', 'settings.password')->name('settings.password');
     Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
+    Volt::route('/checkout', 'checkout.index')->name('checkout.index');
 });
 
 require __DIR__ . '/auth.php';

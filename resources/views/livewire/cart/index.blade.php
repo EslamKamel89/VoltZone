@@ -50,9 +50,9 @@ new
             <span class="text-gray-500">{{ count($cartItems) }} Items</span>
             @endif
         </div>
-        <div class="flex flex-col gap-8 lg:flex-row">
+        <div class="flex flex-col w-full gap-8 lg:flex-row">
             <!-- Cart Items - Left Column -->
-            <div class="lg:w-2/3">
+            <div class="{{ count($cartItems) ? 'lg:w-2/3' : 'lg:w-full'}}">
                 <!-- Desktop Table -->
                 <div class="hidden overflow-x-auto bg-white shadow-sm md:block rounded-xl">
                     <table class="w-full divide-y divide-gray-200 ">
@@ -99,7 +99,6 @@ new
                                         <flux:icon.trash />
                                     </button>
                                 </td>
-
                             </tr>
                             @empty
                             <tr>
@@ -151,6 +150,8 @@ new
             </div>
 
             <!-- Order Summary - Right Column -->
+            @if (count($cartItems))
+
             <div class="lg:w-1/3">
                 <div class="sticky p-6 bg-white shadow-sm rounded-xl top-8">
                     <h2 class="mb-6 text-lg font-bold">Order Summary</h2>
@@ -176,17 +177,21 @@ new
                             </div>
                         </div>
                     </div>
+                    @if (count($cartItems))
+
                     <div class="flex flex-col items-center w-full">
-                        <button class="px-4 py-3 mt-6 font-medium text-white transition-colors bg-blue-600 rounded-lg shadow-sm cursor-pointer hover:scale-105 cursor-pointerw-full hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                        <a wire:navigate href="{{ route('checkout.index') }}" class="px-4 py-3 mt-6 font-medium text-white transition-colors bg-blue-600 rounded-lg shadow-sm cursor-pointer hover:scale-105 cursor-pointerw-full hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
                             Proceed to Checkout
-                        </button>
+                        </a>
                         <div class="flex items-center justify-center mt-4 space-x-2 text-sm text-gray-500">
                             <flux:icon.lock-closed />
                             <span>Secure checkout</span>
                         </div>
                     </div>
+                    @endif
                 </div>
             </div>
+            @endif
         </div>
     </div>
 </div>

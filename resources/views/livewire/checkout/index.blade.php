@@ -1,12 +1,14 @@
 <?php
 
+use App\Services\CartManagment;
 use Livewire\Attributes\Title;
 use Livewire\Volt\Component;
 
 new
     #[Title('Checkout')]
     class extends Component {
-        //
+        public function mount() {
+        }
     }; ?>
 
 <div class="w-full max-w-[85rem] py-10 px-4 sm:px-6 lg:px-8 mx-auto">
@@ -95,69 +97,6 @@ new
             </div>
         </div>
 
-        <!-- Right Section - Order Summary & Basket -->
-        <div class="space-y-6 lg:col-span-1">
-            <!-- Order Summary Card -->
-            <div class="p-6 transition-all duration-300 bg-white shadow-lg rounded-xl dark:bg-slate-800 hover:shadow-xl">
-                <h2 class="pb-2 mb-4 text-2xl font-bold text-gray-800 border-b dark:text-white">Order Summary</h2>
-                <div class="space-y-2">
-                    <div class="flex justify-between text-gray-700 dark:text-gray-300">
-                        <span>Subtotal</span>
-                        <span>$45,000.00</span>
-                    </div>
-                    <div class="flex justify-between text-gray-700 dark:text-gray-300">
-                        <span>Taxes</span>
-                        <span>$0.00</span>
-                    </div>
-                    <div class="flex justify-between text-gray-700 dark:text-gray-300">
-                        <span>Shipping</span>
-                        <span>Free</span>
-                    </div>
-                    <hr class="my-3 border-gray-300 dark:border-gray-600">
-                    <div class="flex justify-between text-lg font-bold text-gray-900 dark:text-white">
-                        <span>Grand Total</span>
-                        <span>$45,000.00</span>
-                    </div>
-                </div>
-                <button
-                    class="w-full px-4 py-3 mt-6 font-semibold text-white transition-all duration-300 rounded-lg bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700">
-                    Place Order
-                </button>
-            </div>
-
-            <!-- Basket Summary Card -->
-            <div class="p-6 transition-all duration-300 bg-white shadow-lg rounded-xl dark:bg-slate-800 hover:shadow-xl">
-                <h2 class="pb-2 mb-4 text-2xl font-bold text-gray-800 border-b dark:text-white">Basket Summary</h2>
-                <ul class="space-y-4 divide-y divide-gray-200 dark:divide-gray-700">
-                    <li class="flex items-center py-3">
-                        <img src="https://iplanet.one/cdn/shop/files/iPhone_15_Pro_Max_Blue_Titanium_PDP_Image_Position-1__en-IN_1445x.jpg?v=1695435917"
-                            alt="Product" class="object-cover rounded-md w-14 h-14">
-                        <div class="flex-1 ml-4">
-                            <p class="text-sm font-medium text-gray-900 dark:text-white">Apple iPhone 15 Pro Max</p>
-                            <p class="text-xs text-gray-500 dark:text-gray-400">Qty: 1</p>
-                        </div>
-                        <span class="text-sm font-semibold text-gray-900 dark:text-white">$320</span>
-                    </li>
-                    <li class="flex items-center py-3">
-                        <img src="https://iplanet.one/cdn/shop/files/iPhone_15_Pro_Max_Blue_Titanium_PDP_Image_Position-1__en-IN_1445x.jpg?v=1695435917"
-                            alt="Product" class="object-cover rounded-md w-14 h-14">
-                        <div class="flex-1 ml-4">
-                            <p class="text-sm font-medium text-gray-900 dark:text-white">Apple iPhone 15 Pro Max</p>
-                            <p class="text-xs text-gray-500 dark:text-gray-400">Qty: 1</p>
-                        </div>
-                        <span class="text-sm font-semibold text-gray-900 dark:text-white">$320</span>
-                    </li>
-                    <li class="flex items-center py-3">
-                        <img src="https://iplanet.one/cdn/shop/files/iPhone_15_Pro_Max_Blue_Titanium_PDP_Image_Position-1__en-IN_1445x.jpg?v=1695435917"
-                            alt="Product" class="object-cover rounded-md w-14 h-14">
-                        <div class="flex-1 ml-4">
-                            <p class="text-sm font-medium text-gray-900 dark:text-white">Apple iPhone 15 Pro Max</p>
-                            <p class="text-xs text-gray-500 dark:text-gray-400">Qty: 1</p>
-                        </div>
-                        <span class="text-sm font-semibold text-gray-900 dark:text-white">$320</span>
-                    </li>
-                </ul>
-            </div>
-        </div>
+        <livewire:checkout.comps.order_summary />
     </div>
 </div>
