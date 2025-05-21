@@ -28,6 +28,11 @@
                 <flux:navbar.item icon="shopping-cart" :href="route('cart.index')" :current="request()->routeIs('cart.index')" wire:navigate>
                     <livewire:cart.comps.header_count />
                 </flux:navbar.item>
+                @if (auth()->user() && auth()->user()->email == 'admin@gmail.com')
+                <flux:navbar.item icon="computer-desktop" href="/admin">
+                    {{'Dashboard' }}
+                </flux:navbar.item>
+                @endif
             </flux:navbar>
         </div>
 
@@ -91,6 +96,11 @@
                 <flux:navlist.item icon="shopping-cart" :href="route('cart.index')" :current="request()->routeIs('cart.index')" wire:navigate>
                     <livewire:cart.comps.header_count />
                 </flux:navlist.item>
+                @if (auth()->user() && auth()->user()->email == 'admin@gmail.com')
+                <flux:navbar.item icon="computer-desktop" href="/admin">
+                    {{'Dashboard' }}
+                </flux:navbar.item>
+                @endif
             </flux:navlist.group>
         </flux:navlist>
         <!--

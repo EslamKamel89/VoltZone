@@ -263,6 +263,6 @@ namespace App\Models{
  * @property-read int|null $orders_count
  * @mixin \Eloquent
  */
-	class User extends \Eloquent {}
+	class User extends \Eloquent implements \Filament\Models\Contracts\FilamentUser {}
 }
 
