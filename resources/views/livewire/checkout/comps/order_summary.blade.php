@@ -11,6 +11,9 @@ new class extends Component {
         $this->cartItems = CartManagment::getCartItemsFromCookie();
         $this->grandTotal = CartManagment::grandTotal();
     }
+    public function submit() {
+        $this->dispatch('order-summary_submit-order');
+    }
 }; ?>
 
 <div class="space-y-6 lg:col-span-1">
@@ -37,6 +40,8 @@ new class extends Component {
             </div>
         </div>
         <button
+            type="button"
+            wire:click="submit"
             class="w-full px-4 py-3 mt-6 font-semibold text-white transition-all duration-300 rounded-lg bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700">
             Place Order
         </button>
@@ -48,10 +53,8 @@ new class extends Component {
         <ul class="space-y-4 divide-y divide-gray-200 dark:divide-gray-700">
             @foreach ($cartItems as $cartItem )
 
-            <li class="flex items-center py-3">
-                @php
-                pr::log($cartItem);
-                @endphp
+            <li class="flex items-center py-3" wire:key="{{ $cartItem['product_id'] }}">
+
                 <img src="{{ asset('/storage/'.$cartItem['image']) }}"
                     alt="Product" class="object-cover rounded-md w-14 h-14">
                 <div class="flex-1 ml-4">
