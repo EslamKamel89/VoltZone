@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property int $order_id
@@ -47,7 +47,6 @@ class Address extends Model {
     protected $fillable = [
         "order_id",
         "first_name",
-        "last_name",
         "last_name",
         "phone",
         "street_address",
