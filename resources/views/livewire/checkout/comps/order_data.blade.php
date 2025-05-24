@@ -14,6 +14,7 @@ new class extends Component {
     public string $state;
     public string $zipCode;
     public string $paymentMethod;
+
     #[On('order-summary_submit-order')]
     public function submit() {
         $validated =   $this->validate([
