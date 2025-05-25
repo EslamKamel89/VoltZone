@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\CartNotEmptyMiddleware;
 use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
@@ -27,7 +28,9 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('settings/profile', 'settings.profile')->name('settings.profile');
     Volt::route('settings/password', 'settings.password')->name('settings.password');
     Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
-    Volt::route('/checkout', 'checkout.index')->name('checkout.index');
+    Route::middleware([CartNotEmptyMiddleware::class])->group(function () {
+        Volt::route('/checkout', 'checkout.index')->name('checkout.index');
+    });
 });
 
 require __DIR__ . '/auth.php';

@@ -20,7 +20,8 @@ new class extends Component {
     public string $state;
     public string $zipCode;
     public string $paymentMethod;
-
+    public function mount() {
+    }
     #[On('order-summary_submit-order')]
     public function submit() {
         $validated =   $this->validate(OrdersService::$orderValidation);
@@ -34,6 +35,7 @@ new class extends Component {
                 'show-toast',
                 ['message' =>  "🎉 Success! Your order is complete and on its way to you. Thanks for shopping with us!"]
             );
+            CartManagment::clearCartItemsFromCookie();
             return redirect()->to(route('success.index'));
         }
         $session = OrdersService::stripeSession($lineItems);
@@ -42,6 +44,7 @@ new class extends Component {
             'show-toast',
             ['message' =>  "🎉 Success! Your order is complete and on its way to you. Thanks for shopping with us!"]
         );
+        CartManagment::clearCartItemsFromCookie();
         return redirect($session->url);
     }
 }; ?>
