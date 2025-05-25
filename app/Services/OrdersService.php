@@ -27,7 +27,7 @@ class OrdersService {
                     'currency' => 'usd',
                     'product_data' => [
                         'name' => Product::find($item['product_id'])->name,
-                        'images' => $item['image'],
+                        'images' => [$item['image']],
                     ],
                     'unit_amount' => round($item['unit_amount'] * 100),
                 ],
@@ -77,7 +77,7 @@ class OrdersService {
         $session = Session::create([
             'line_items' => $lineItems,
             'mode' => 'payment',
-            'payment_method_data' => ['card'],
+            // 'payment_method_data' => ['card'],
             'success_url' => route('success.index') . '?session_id={CHECKOUT_SESSION_ID}',
             'cancel_url' => route('cancel.index'),
             'customer_email' => auth()->user()->email,
