@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\CartNotEmptyMiddleware;
 use App\Models\Product;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
@@ -30,6 +31,11 @@ Route::middleware(['auth'])->group(function () {
     Volt::route('settings/appearance', 'settings.appearance')->name('settings.appearance');
     Route::middleware([CartNotEmptyMiddleware::class])->group(function () {
         Volt::route('/checkout', 'checkout.index')->name('checkout.index');
+    });
+});
+Route::get('/test', function () {
+    Mail::raw('This is a test email from Laravel!', function ($message) {
+        $message->to('eslamkamelforex@gmail.com')->subject('Test Email');
     });
 });
 

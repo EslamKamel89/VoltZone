@@ -15,7 +15,7 @@ class OrderStats extends BaseWidget {
             Stat::make('Orders Canceled', Order::where('status', 'canceled')->count()),
             Stat::make('Orders Shipped', Order::where('status', 'shipped')->count()),
             Stat::make('Orders Delivered', Order::where('status', 'delivered')->count()),
-            Stat::make('Average Price', Number::currency(Order::average('grand_total'), 'EGP')),
+            Stat::make('Average Price', Number::currency(Order::average('grand_total') ?? 0, 'EGP')),
 
         ];
     }
