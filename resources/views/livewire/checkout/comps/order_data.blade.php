@@ -31,6 +31,7 @@ new class extends Component {
         $address = OrdersService::newAddress($validated);
         if ($order->payment_method === 'cod') {
             OrdersService::saveOrder($cartItems, $order, $address);
+            OrdersService::sendOrderPlacedMail($order->refresh());
             $this->dispatch(
                 'show-toast',
                 ['message' =>  "🎉 Success! Your order is complete and on its way to you. Thanks for shopping with us!"]
@@ -40,6 +41,7 @@ new class extends Component {
         }
         $session = OrdersService::stripeSession($lineItems);
         OrdersService::saveOrder($cartItems, $order, $address);
+        OrdersService::sendOrderPlacedMail($order->refresh());
         $this->dispatch(
             'show-toast',
             ['message' =>  "🎉 Success! Your order is complete and on its way to you. Thanks for shopping with us!"]

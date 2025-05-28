@@ -2,9 +2,11 @@
 
 namespace App\Services;
 
+use App\Mail\OrderPlaced;
 use App\Models\Address;
 use App\Models\Order;
 use App\Models\Product;
+use Illuminate\Support\Facades\Mail;
 use Stripe\Checkout\Session;
 use Stripe\Stripe;
 
@@ -83,5 +85,8 @@ class OrdersService {
             'customer_email' => auth()->user()->email,
         ]);
         return $session;
+    }
+    public static function sendOrderPlacedMail(Order $order) {
+        Mail::to(auth()->user()->email)->send(new OrderPlaced($order));
     }
 }

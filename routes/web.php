@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Middleware\CartNotEmptyMiddleware;
+use App\Mail\OrderPlaced;
+use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
@@ -34,9 +36,9 @@ Route::middleware(['auth'])->group(function () {
     });
 });
 Route::get('/test', function () {
-    Mail::raw('This is a test email from Laravel!', function ($message) {
-        $message->to('eslamkamelforex@gmail.com')->subject('Test Email');
-    });
+    Mail::to('eslamkamelforex@gmail.com')->send(new OrderPlaced(
+        Order::where('id', 15)->first()
+    ));
 });
 
 require __DIR__ . '/auth.php';

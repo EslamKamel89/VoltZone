@@ -17,8 +17,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
     /**
      * Handle an incoming registration request.
      */
-    public function register(): void
-    {
+    public function register(): void {
         $validated = $this->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
@@ -31,7 +30,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
 
         Auth::login($user);
 
-        $this->redirectIntended(route('dashboard', absolute: false), navigate: true);
+        $this->redirectIntended(route('home', absolute: false), navigate: true);
     }
 }; ?>
 
@@ -50,8 +49,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
             required
             autofocus
             autocomplete="name"
-            :placeholder="__('Full name')"
-        />
+            :placeholder="__('Full name')" />
 
         <!-- Email Address -->
         <flux:input
@@ -60,8 +58,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
             type="email"
             required
             autocomplete="email"
-            placeholder="email@example.com"
-        />
+            placeholder="email@example.com" />
 
         <!-- Password -->
         <flux:input
@@ -70,8 +67,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
             type="password"
             required
             autocomplete="new-password"
-            :placeholder="__('Password')"
-        />
+            :placeholder="__('Password')" />
 
         <!-- Confirm Password -->
         <flux:input
@@ -80,8 +76,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
             type="password"
             required
             autocomplete="new-password"
-            :placeholder="__('Confirm password')"
-        />
+            :placeholder="__('Confirm password')" />
 
         <div class="flex items-center justify-end">
             <flux:button type="submit" variant="primary" class="w-full">
@@ -90,7 +85,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
         </div>
     </form>
 
-    <div class="space-x-1 rtl:space-x-reverse text-center text-sm text-zinc-600 dark:text-zinc-400">
+    <div class="space-x-1 text-sm text-center rtl:space-x-reverse text-zinc-600 dark:text-zinc-400">
         {{ __('Already have an account?') }}
         <flux:link :href="route('login')" wire:navigate>{{ __('Log in') }}</flux:link>
     </div>
