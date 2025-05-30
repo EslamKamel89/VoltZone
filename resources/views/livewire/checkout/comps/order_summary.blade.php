@@ -39,12 +39,12 @@ new class extends Component {
                 <span>{{ Number::currency($grandTotal * 1.012 , 'USD') }}</span>
             </div>
         </div>
-        <button
+        <flux:button
             type="button"
             wire:click="submit"
-            class="w-full px-4 py-3 mt-6 font-semibold text-white transition-all duration-300 rounded-lg bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700">
+            class="w-full px-4 py-3 mt-6 font-semibold !text-white transition-all duration-300 rounded-lg bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700">
             Place Order
-        </button>
+        </flux:button>
     </div>
 
     <!-- Basket Summary Card -->
