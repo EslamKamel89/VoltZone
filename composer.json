@@ -13,8 +13,10 @@
         "laravel/tinker": "^2.10.1",
         "livewire/flux": "^2.1.1",
         "livewire/volt": "^1.7.0",
+        "masterminds/html5": "^2.9",
         "spatie/laravel-query-builder": "^6.3",
-        "stripe/stripe-php": "^17.2"
+        "stripe/stripe-php": "^17.2",
+        "symfony/css-selector": "^7.3"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.15",

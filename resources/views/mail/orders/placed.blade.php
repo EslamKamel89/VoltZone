@@ -1,4 +1,4 @@
-<x-mail::message>
+<div>
     <h1 style="color: #2D3748; font-size: 24px; margin-bottom: 16px;">Order Placed Successfully</h1>
 
     <p style="font-size: 16px; color: #4A5568; line-height: 1.6;">
@@ -6,9 +6,9 @@
         <strong style="color: #4F46E5; font-weight: 600;">#{{ $order->id }}</strong>.
     </p>
 
-    <x-mail::panel style="background-color: #F9FAFB; border-left: 4px solid #4F46E5; padding: 16px; margin-top: 24px;">
+    <div style="background-color: #F9FAFB; border-left: 4px solid #4F46E5; padding: 16px; margin-top: 24px;">
         We’ll send you an email confirmation once your order has shipped.
-    </x-mail::panel>
+    </div>
 
     <x-mail::button :url="$url">
         View Order Details
@@ -18,4 +18,4 @@
         Thanks,<br>
         <strong>{{ config('app.name') }}</strong>
     </p>
-</x-mail::message>
+</div>

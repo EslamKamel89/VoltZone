@@ -1,5 +1,6 @@
 <?php
 
+use App\Helpers\pr;
 use App\Http\Middleware\CartNotEmptyMiddleware;
 use App\Mail\OrderPlaced;
 use App\Models\Order;
@@ -36,9 +37,12 @@ Route::middleware(['auth'])->group(function () {
     });
 });
 Route::get('/test', function () {
-    Mail::to('eslamkamelforex@gmail.com')->send(new OrderPlaced(
-        Order::where('id', 15)->first()
-    ));
+    pr::dump(Mail::to('eslamkamelforex@gmail.com')->send(new OrderPlaced(
+        Order::where('id', 16)->first()
+    )));
+    // echo (new OrderPlaced(
+    //     Order::where('id', 16)->first()
+    // ))->render();
 });
 
 require __DIR__ . '/auth.php';
