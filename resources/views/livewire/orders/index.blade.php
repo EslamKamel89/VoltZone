@@ -1,15 +1,20 @@
 <?php
 
+use App\Models\Order;
 use Livewire\Attributes\Title;
 use Livewire\Volt\Component;
 
 new
     #[Title('Orders')]
     class extends Component {
-        //
+        public $orders = [];
+        public function mount() {
+            $this->orders = Order::where('user_id', auth()->id())
+                ->get();
+        }
     }; ?>
 
-<div class="w-full max-w-[85rem] py-10 px-4 sm:px-6 lg:px-8 mx-auto">
+<div class="w-full max-w-[85rem] py-10 px-4 sm:px-6 lg:px-8 mx-auto" x-init="{}">
     <h1 class="mb-6 text-4xl font-bold text-gray-800 dark:text-white">My Orders</h1>
 
     <!-- Responsive Order List -->
@@ -28,51 +33,28 @@ new
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-                    <!-- Row -->
+                    @forelse ($orders as $order )
                     <tr class="transition-colors duration-200 hover:bg-gray-50 dark:hover:bg-slate-700">
-                        <td class="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap dark:text-gray-200">20</td>
-                        <td class="px-6 py-4 text-sm text-gray-800 whitespace-nowrap dark:text-gray-200">18-02-2024</td>
+                        <td class="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap dark:text-gray-200">{{ $order->id }}</td>
+                        <td class="px-6 py-4 text-sm text-gray-800 whitespace-nowrap dark:text-gray-200">{{ $order->created_at }}</td>
                         <td class="px-6 py-4 text-sm whitespace-nowrap">
-                            <span class="px-3 py-1 text-xs font-semibold text-white bg-yellow-500 rounded-full shadow-sm">Pending</span>
+                            <span class="px-3 py-1 text-xs font-semibold text-white bg-green-500 rounded-full shadow-sm">{{ $order->status }}</span>
                         </td>
                         <td class="px-6 py-4 text-sm whitespace-nowrap">
-                            <span class="px-3 py-1 text-xs font-semibold text-white bg-green-500 rounded-full shadow-sm">Paid</span>
+                            <span class="px-3 py-1 text-xs font-semibold text-white rounded-full shadow-sm {{ $order->payment_status == 'paid' ? 'bg-green-600' : 'bg-yellow-500' }}">
+                                {{ $order->payment_status }}</span>
                         </td>
-                        <td class="px-6 py-4 text-sm text-gray-800 whitespace-nowrap dark:text-gray-200">$12,000.00</td>
+                        <td class="px-6 py-4 text-sm text-gray-800 whitespace-nowrap dark:text-gray-200">{{ Number::currency($order->grand_total , 'USD') }}</td>
                         <td class="px-6 py-4 text-sm font-medium whitespace-nowrap text-end">
-                            <a href="#" class="px-4 py-2 text-white transition bg-indigo-600 rounded-md hover:bg-indigo-700">View Details</a>
+                            <a wire:navigate href="{{ route('orders.show' , ['order'=>$order->id]) }}" class="px-4 py-2 text-white transition bg-indigo-600 rounded-md hover:bg-indigo-700">View Details</a>
                         </td>
                     </tr>
+                    @empty
+                    <div>no data found</div>
+                    @endforelse
 
-                    <tr class="transition-colors duration-200 hover:bg-gray-50 dark:hover:bg-slate-700">
-                        <td class="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap dark:text-gray-200">21</td>
-                        <td class="px-6 py-4 text-sm text-gray-800 whitespace-nowrap dark:text-gray-200">20-02-2024</td>
-                        <td class="px-6 py-4 text-sm whitespace-nowrap">
-                            <span class="px-3 py-1 text-xs font-semibold text-white bg-blue-500 rounded-full shadow-sm">Processing</span>
-                        </td>
-                        <td class="px-6 py-4 text-sm whitespace-nowrap">
-                            <span class="px-3 py-1 text-xs font-semibold text-white bg-red-500 rounded-full shadow-sm">Unpaid</span>
-                        </td>
-                        <td class="px-6 py-4 text-sm text-gray-800 whitespace-nowrap dark:text-gray-200">$9,500.00</td>
-                        <td class="px-6 py-4 text-sm font-medium whitespace-nowrap text-end">
-                            <a href="#" class="px-4 py-2 text-white transition bg-indigo-600 rounded-md hover:bg-indigo-700">View Details</a>
-                        </td>
-                    </tr>
 
-                    <tr class="transition-colors duration-200 hover:bg-gray-50 dark:hover:bg-slate-700">
-                        <td class="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap dark:text-gray-200">22</td>
-                        <td class="px-6 py-4 text-sm text-gray-800 whitespace-nowrap dark:text-gray-200">21-02-2024</td>
-                        <td class="px-6 py-4 text-sm whitespace-nowrap">
-                            <span class="px-3 py-1 text-xs font-semibold text-white bg-green-500 rounded-full shadow-sm">Completed</span>
-                        </td>
-                        <td class="px-6 py-4 text-sm whitespace-nowrap">
-                            <span class="px-3 py-1 text-xs font-semibold text-white bg-green-500 rounded-full shadow-sm">Paid</span>
-                        </td>
-                        <td class="px-6 py-4 text-sm text-gray-800 whitespace-nowrap dark:text-gray-200">$15,000.00</td>
-                        <td class="px-6 py-4 text-sm font-medium whitespace-nowrap text-end">
-                            <a href="#" class="px-4 py-2 text-white transition bg-indigo-600 rounded-md hover:bg-indigo-700">View Details</a>
-                        </td>
-                    </tr>
+
                 </tbody>
             </table>
         </div>
