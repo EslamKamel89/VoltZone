@@ -62,79 +62,36 @@ new
         <!-- Mobile Cards -->
         <div class="p-4 space-y-4 md:hidden">
             <!-- Card -->
+            @forelse ($orders as $order )
             <div class="p-4 rounded-lg shadow-sm bg-gray-50 dark:bg-slate-700">
                 <div class="flex items-center justify-between mb-2">
-                    <span class="font-semibold text-gray-800 dark:text-white">Order #20</span>
-                    <span class="text-xs text-gray-500 dark:text-gray-400">18-02-2024</span>
+                    <span class="font-semibold text-gray-800 dark:text-white">Order #{{ $order->id }}</span>
+                    <span class="text-xs text-gray-500 dark:text-gray-400">{{ $order->created_at }}</span>
                 </div>
                 <div class="grid grid-cols-2 gap-2 text-sm">
                     <div>
                         <div class="text-gray-500 dark:text-gray-400">Status</div>
-                        <span class="px-2 py-1 text-xs text-white bg-yellow-500 rounded">Pending</span>
+                        <span class="px-2 py-1 text-xs text-white bg-yellow-500 rounded">{{ $order->status }}</span>
                     </div>
                     <div>
                         <div class="text-gray-500 dark:text-gray-400">Payment</div>
-                        <span class="px-2 py-1 text-xs text-white bg-green-500 rounded">Paid</span>
+                        <span class="px-2 py-1 text-xs text-white bg-green-500 rounded">{{ $order->payment_status }}</span>
                     </div>
                     <div>
                         <div class="text-gray-500 dark:text-gray-400">Amount</div>
-                        <span class="font-medium text-gray-800 dark:text-white">$12,000.00</span>
+                        <span class="font-medium text-gray-800 dark:text-white">{{ Number::currency($order->grand_total , 'USD') }}</span>
                     </div>
                 </div>
                 <div class="mt-3 text-right">
-                    <a href="#" class="text-sm font-medium text-indigo-600 hover:underline">View Details</a>
+                    <a wire:navigate href="{{ route('orders.show' , ['order'=>$order->id]) }}" class="text-sm font-medium text-indigo-600 hover:underline">View Details</a>
                 </div>
             </div>
+            @empty
 
-            <!-- Card -->
-            <div class="p-4 rounded-lg shadow-sm bg-gray-50 dark:bg-slate-700">
-                <div class="flex items-center justify-between mb-2">
-                    <span class="font-semibold text-gray-800 dark:text-white">Order #21</span>
-                    <span class="text-xs text-gray-500 dark:text-gray-400">20-02-2024</span>
-                </div>
-                <div class="grid grid-cols-2 gap-2 text-sm">
-                    <div>
-                        <div class="text-gray-500 dark:text-gray-400">Status</div>
-                        <span class="px-2 py-1 text-xs text-white bg-blue-500 rounded">Processing</span>
-                    </div>
-                    <div>
-                        <div class="text-gray-500 dark:text-gray-400">Payment</div>
-                        <span class="px-2 py-1 text-xs text-white bg-red-500 rounded">Unpaid</span>
-                    </div>
-                    <div>
-                        <div class="text-gray-500 dark:text-gray-400">Amount</div>
-                        <span class="font-medium text-gray-800 dark:text-white">$9,500.00</span>
-                    </div>
-                </div>
-                <div class="mt-3 text-right">
-                    <a href="#" class="text-sm font-medium text-indigo-600 hover:underline">View Details</a>
-                </div>
-            </div>
+            @endforelse
 
-            <!-- Card -->
-            <div class="p-4 rounded-lg shadow-sm bg-gray-50 dark:bg-slate-700">
-                <div class="flex items-center justify-between mb-2">
-                    <span class="font-semibold text-gray-800 dark:text-white">Order #22</span>
-                    <span class="text-xs text-gray-500 dark:text-gray-400">21-02-2024</span>
-                </div>
-                <div class="grid grid-cols-2 gap-2 text-sm">
-                    <div>
-                        <div class="text-gray-500 dark:text-gray-400">Status</div>
-                        <span class="px-2 py-1 text-xs text-white bg-green-500 rounded">Completed</span>
-                    </div>
-                    <div>
-                        <div class="text-gray-500 dark:text-gray-400">Payment</div>
-                        <span class="px-2 py-1 text-xs text-white bg-green-500 rounded">Paid</span>
-                    </div>
-                    <div>
-                        <div class="text-gray-500 dark:text-gray-400">Amount</div>
-                        <span class="font-medium text-gray-800 dark:text-white">$15,000.00</span>
-                    </div>
-                </div>
-                <div class="mt-3 text-right">
-                    <a href="#" class="text-sm font-medium text-indigo-600 hover:underline">View Details</a>
-                </div>
-            </div>
+
+
         </div>
     </div>
 </div>
